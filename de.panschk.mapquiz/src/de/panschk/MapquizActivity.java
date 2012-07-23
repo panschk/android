@@ -20,7 +20,6 @@ public class MapquizActivity extends Activity {
     private void setListeners() {
 		getStartButton().setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(MapquizActivity.this, MapActivity.class);
 				startActivity(i);
