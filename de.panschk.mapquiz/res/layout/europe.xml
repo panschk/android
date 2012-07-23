@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+    <RelativeLayout
+        android:id="@+id/scene_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:drawingCacheQuality="low"
+        android:orientation="horizontal" >
+
+        <us.gorges.viewaclue.TwoDScrollView
+            android:id="@+id/scene_scroller"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:drawingCacheQuality="low" >
+
+            <RelativeLayout
+                android:id="@+id/scene_container"
+                android:layout_width="1081px"
+                android:layout_height="873px"
+                android:drawingCacheQuality="low" >
+
+                <de.panschk.MapView
+                android:id="@+id/mapView"
+                android:layout_width="1081px"
+                android:layout_height="873px"
+                android:background="@drawable/europa"
+                android:padding="5px" >
+                </de.panschk.MapView>
+            </RelativeLayout>
+        </us.gorges.viewaclue.TwoDScrollView>
+    </RelativeLayout>
+</RelativeLayout>
+<!-- <TableLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!--     android:layout_width="fill_parent" -->
+<!--     android:layout_height="fill_parent" > -->
+
+<!--     <ScrollView -->
+<!--         android:id="@+id/mapView1" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" > -->
+
+<!--         <LinearLayout -->
+<!--             android:id="@+id/linearLayout1" -->
+<!--             android:layout_width="fill_parent" -->
+<!--             android:layout_height="fill_parent" > -->
+
+<!--             <de.panschk.MapView -->
+<!--                 android:id="@+id/mapView" -->
+<!--                 android:layout_width="1081px" -->
+<!--                 android:layout_height="873px" -->
+<!--                 android:background="@drawable/europa" -->
+<!--                 android:padding="5px" > -->
+<!--             </de.panschk.MapView> -->
+<!--         </LinearLayout> -->
+<!--     </ScrollView> -->
+
+<!-- </TableLayout> -->
