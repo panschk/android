@@ -1,0 +1,1 @@
+http://maps.google.com/maps/api/staticmap?&size=640x640&center=Kassel&zoom=8&style=feature:road|element:all|visibility:off&style=feature:all|element:labels|visibility:off&sensor=false&maptype=terrain

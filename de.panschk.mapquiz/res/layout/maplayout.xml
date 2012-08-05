@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clickinstruction" />
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/x_y" />
+    
+    <TextView
+        android:id="@+id/livesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/scoreText"
+        android:text="@string/three_hearts" 
+        android:textColor="#ff0000"/>
+
+
+    <us.gorges.viewaclue.TwoDScrollView
+        android:id="@+id/scene_scroller"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="30dp"
+        android:drawingCacheQuality="low" >
+
+        <RelativeLayout
+            android:id="@+id/scene_container"
+            android:layout_width="1400dp"
+            android:layout_height="1050dp"
+            android:drawingCacheQuality="low" >
+
+            <de.panschk.mapquiz.MapView
+                android:id="@+id/mapView"
+                android:layout_width="1400dp"
+                android:layout_height="1050dp" >
+            </de.panschk.mapquiz.MapView>
+        </RelativeLayout>
+    </us.gorges.viewaclue.TwoDScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" >
+
+        <Button
+            android:id="@+id/buttonMainMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_menu" />
+        
+
+    </LinearLayout>
+
+</RelativeLayout>

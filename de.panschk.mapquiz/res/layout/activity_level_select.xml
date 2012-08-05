@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Button
+        android:id="@+id/level_europe_countries"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/thumb_europe"
+        android:gravity="left|center_vertical"
+        android:text="@string/countries_of_europe" />
+
+    <Button
+        android:id="@+id/level_south_africa_countries"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/level_europe_countries"
+        android:drawableLeft="@drawable/thumb_south_africa"
+        android:gravity="left|center_vertical"
+        android:text="@string/countries_of_africa_south" />
+
+</RelativeLayout>
