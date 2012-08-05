@@ -32,6 +32,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+import de.panschk.mapquiz.MapView;
+import de.panschk.mapquiz.R;
 
 /**
  * Layout container for a view hierarchy that can be scrolled by the user,
@@ -53,8 +55,8 @@ public class TwoDScrollView extends FrameLayout {
     static final int ANIMATED_SCROLL_GAP = 250;
     static final float MAX_SCROLL_FACTOR = 0.5f;
 
-    private long mLastScroll;
-    private Scroller mScroller;
+    protected long mLastScroll;
+    protected Scroller mScroller;
 
     /**
      * Position of the last motion event.
@@ -297,7 +299,12 @@ public class TwoDScrollView extends FrameLayout {
             return false;
         }
         
+        final int action = ev.getAction();
         if (!canScroll()) {
+            if (action == MotionEvent.ACTION_DOWN) {
+                MapView mapView = (MapView) findViewById(R.id.mapView);
+                mapView.onClick();
+            }
             return false;
         }
 
@@ -306,7 +313,6 @@ public class TwoDScrollView extends FrameLayout {
         }
         mVelocityTracker.addMovement(ev);
 
-        final int action = ev.getAction();
         final float y = ev.getY();
         final float x = ev.getX();
 
@@ -369,6 +375,14 @@ public class TwoDScrollView extends FrameLayout {
 
                 if ((Math.abs(initialXVelocity) + Math.abs(initialYVelocity) > mMinimumVelocity) && getChildCount() > 0) {
                     fling(-initialXVelocity, -initialYVelocity);
+                } else {
+                    try {
+                        MapView mapView = (MapView) findViewById(R.id.mapView);
+                        mapView.onClick();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    
                 }
 
                 if (mVelocityTracker != null) {
