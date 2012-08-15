@@ -26,7 +26,7 @@ public class LevelSelectActivity extends Activity {
 
     private void setListeners() {
         addListener(R.id.level_europe_countries,
-                LevelFactory.LEVEL_EUROPE_COUNTRIES);
+                LevelFactory.LEVEL_EUROPE_COUNTRIES_EASY);
         addListener(R.id.level_south_africa_countries,
                 LevelFactory.LEVEL_SOUTH_AFRICA_COUNTRIES);
         
