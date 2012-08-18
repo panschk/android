@@ -10,12 +10,15 @@ public class Level {
 	public String name;
 	
 	public int pictureIdOfMap;
+	public int pictereIdThumbnail;
 	
 	public int width;
 	public int height;
+	public int levelId;
 	
-	public Level(String name, List<Entry> entries, int pictureId, int width, int height) {
-		this.name = name;
+	public Level(int levelId, String name, List<Entry> entries, int pictureId, int thumbId, int width, int height) {
+		this.levelId = levelId;
+        this.name = name;
 		this.entriesToDo = new ArrayList<Entry>();
 		for (Entry entry : entries) {
             entriesToDo.add(entry);
@@ -23,6 +26,7 @@ public class Level {
 		Collections.shuffle(entriesToDo);
 		this.entriesDone = new ArrayList<Entry>();
 		this.pictureIdOfMap = pictureId;
+		this.pictereIdThumbnail = thumbId;
 		this.width = width;
 		this.height = height;
 	}

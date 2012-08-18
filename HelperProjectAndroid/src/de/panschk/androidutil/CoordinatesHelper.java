@@ -17,39 +17,12 @@ import javax.swing.JFrame;
 
 public class CoordinatesHelper {
     
-    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable-mdpi/arabian_sea.png";
+    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable-large/north_central_america.png";
     static String[] strings = new String[]{
-        "Egypt",
-        "Sudan",
-        "South Sudan",
-        "Uganda",
-        "Kenya",
-        "Somalia",
-        "Ethopia",
-        "Eritrea",
-        "Djibouti",
-        "Yemen",
-        "Oman",
-        "Saudi Arabia",
-        "United Arab Emirates",
-        "Qatar",
-        "Bahrain",
-        "Iran",
-        "Pakistan",
-        "India",
-        "Kuwait",
-        "Afghanistan",
-        "Jordan"
-        
-        
-        
-        
-        
-        
+        "Nassau"
         
     };
     
-    static String output = "";
     private static JFrame myJFrame;
     static int count = 0;
     static HashMap<String, Point> coordinates = new HashMap<String, Point>();
@@ -117,7 +90,6 @@ public class CoordinatesHelper {
         myJFrame.setSize(new Dimension(1000,  700));
         myJFrame.setVisible(true);
         
-        System.out.println(output);
         
     }
     

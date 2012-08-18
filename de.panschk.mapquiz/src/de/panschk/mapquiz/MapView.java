@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.Level;
 
@@ -30,6 +29,9 @@ public class MapView extends ImageView {
 	private float lastX;
 	private float lastY;
 	boolean firstDraw = true;
+	private int offset = 7;
+    public int height;
+    public int width;
 
 	/**
 	 * Create the MapView
@@ -46,9 +48,11 @@ public class MapView extends ImageView {
 		mapBitmap = BitmapFactory.decodeResource(getResources(),
 				level.pictureIdOfMap);
 		dotBitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.dot_small);
+				R.drawable.dot);
 		dotGreyBitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.dot_grey_small);
+                R.drawable.dot_green);
+		this.width = mapBitmap.getWidth();
+		this.height = mapBitmap.getHeight();
         
 
 	}
@@ -64,8 +68,8 @@ public class MapView extends ImageView {
 //        this.setMinimumHeight(level.height);
 //        this.setMinimumWidth(level.width);
 	    if (firstDraw) {
-
-	        activity.setText(level.entriesToDo.get(0));
+	        offset = dotBitmap.getHeight() / 2;
+	        activity.drawQuestion();
 	        firstDraw = false;
 	    }
 	    canvas.drawBitmap(mapBitmap, 0, 0, mPaint);
@@ -75,8 +79,8 @@ public class MapView extends ImageView {
 		for (Entry entry : entries) {
 			int realX = realX(entry);
 			int realY = realY(entry);
-			int xAdjusted = Math.max(0, realX - 7);
-			int yAdjusted = Math.max(0, realY - 7);
+			int xAdjusted = Math.max(0, realX - offset);
+			int yAdjusted = Math.max(0, realY - offset);
 
 			canvas.drawBitmap(dotBitmap, xAdjusted, yAdjusted, mPaint);
 		}
@@ -86,8 +90,8 @@ public class MapView extends ImageView {
         for (Entry entry : entries) {
             int realX = realX(entry);
             int realY = realY(entry);
-            int xAdjusted = Math.max(0, realX - 7);
-            int yAdjusted = Math.max(0, realY - 7);
+            int xAdjusted = Math.max(0, realX - offset);
+            int yAdjusted = Math.max(0, realY - offset);
 
             canvas.drawBitmap(dotGreyBitmap, xAdjusted, yAdjusted, mPaint);
         }
@@ -139,16 +143,20 @@ public class MapView extends ImageView {
 
 		float x = lastX;
 		float y = lastY;
-
+		//otherwise will get exceptions
+		if (level.entriesToDo.size() < 1) {
+		    return;
+		}
 		Entry entry = level.entriesToDo.get(0);
 		int realX = realX(entry);
 		int realY = realY(entry);
 
-		if ((Math.abs(realX - x) < 25) && Math.abs(realY - y) < 25) {
+		if ((Math.abs(realX - x) < 25) && Math.abs(realY - y) < offset * 2) {
 			if (activity.nextEntry()) {
-				Entry newEntry = level.entriesToDo.get(0);
-				activity.setText(newEntry);
+			    activity.sound.playSound(Sound.RIGHT);
+				activity.drawQuestion();
 			} else {
+			    activity.sound.playSound(Sound.WIN);
 				activity.nextLevel();
 			}
 		} else {
@@ -157,9 +165,8 @@ public class MapView extends ImageView {
 				Entry otherEntry = level.entriesToDo.get(i);
 				int realX2 = realX(otherEntry);
 				int realY2 = realY(otherEntry);
-				if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < 25) {
+				if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < offset * 2) {
 				    activity.removeLife();
-					activity.errorMsg();
 				}
 			}
 		}
