@@ -55,23 +55,23 @@ public class Settings {
                 LANGUAGE_DEFAULT);
     }
 
-    public ImageSize getImageSize() {
-        String val = settings.getString(getString(R.string._image_size_key),
-                getString(R.string._image_size_device));
-
-        if (getString(R.string._image_size_small).equals(val)) {
-            return ImageSize.SMALL;
-        }
-        if (getString(R.string._image_size_normal).equals(val)) {
-            return ImageSize.MEDIUM;
-        }
-        if (getString(R.string._image_size_large).equals(val)) {
-            return ImageSize.LARGE;
-        }
-
-        return ImageSize.DEVICE;
-
-    }
+//    public ImageSize getImageSize() {
+//        String val = settings.getString(getString(R.string._image_size_key),
+//                getString(R.string._image_size_device));
+//
+//        if (getString(R.string._image_size_small).equals(val)) {
+//            return ImageSize.SMALL;
+//        }
+//        if (getString(R.string._image_size_normal).equals(val)) {
+//            return ImageSize.MEDIUM;
+//        }
+//        if (getString(R.string._image_size_large).equals(val)) {
+//            return ImageSize.LARGE;
+//        }
+//
+//        return ImageSize.DEVICE;
+//
+//    }
 
     public Difficulty getDifficulty() {
         String diffStr = settings.getString(getString(R.string._difficulty),
@@ -99,45 +99,45 @@ public class Settings {
 
 
 
-    public void adjustDrawableConfig() {
-        Configuration conf = app.getResources().getConfiguration();
-        ImageSize imageSize = getImageSize();
-        int valueToAdd = 0;
-
-        switch (imageSize) {
-        case LARGE:
-            valueToAdd = Configuration.SCREENLAYOUT_SIZE_LARGE;
-            break;
-        case MEDIUM:
-            valueToAdd = Configuration.SCREENLAYOUT_SIZE_NORMAL;
-            break;
-        case SMALL:
-            valueToAdd = Configuration.SCREENLAYOUT_SIZE_SMALL;
-            break;
-        default:
-            valueToAdd = 0;
-            break;
-        }
-        if (imageSize != ImageSize.DEVICE) {
-            int toSubstract = 0;
-            boolean wasLarge = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE;
-            boolean wasNormal = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL;
-            boolean wasSmall = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL;
-
-            if (wasLarge) {
-                toSubstract = Configuration.SCREENLAYOUT_SIZE_LARGE;
-            } else if (wasNormal) {
-                toSubstract = Configuration.SCREENLAYOUT_SIZE_NORMAL;
-            } else if (wasSmall) {
-                toSubstract = Configuration.SCREENLAYOUT_SIZE_SMALL;
-            }
-
-            conf.screenLayout = conf.screenLayout - toSubstract + valueToAdd;
-            app.getResources().updateConfiguration(conf,
-                    app.getResources().getDisplayMetrics());
-
-        }
-    }
+//    public void adjustDrawableConfig() {
+//        Configuration conf = app.getResources().getConfiguration();
+//        ImageSize imageSize = getImageSize();
+//        int valueToAdd = 0;
+//
+//        switch (imageSize) {
+//        case LARGE:
+//            valueToAdd = Configuration.SCREENLAYOUT_SIZE_LARGE;
+//            break;
+//        case MEDIUM:
+//            valueToAdd = Configuration.SCREENLAYOUT_SIZE_NORMAL;
+//            break;
+//        case SMALL:
+//            valueToAdd = Configuration.SCREENLAYOUT_SIZE_SMALL;
+//            break;
+//        default:
+//            valueToAdd = 0;
+//            break;
+//        }
+//        if (imageSize != ImageSize.DEVICE) {
+//            int toSubstract = 0;
+//            boolean wasLarge = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE;
+//            boolean wasNormal = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL;
+//            boolean wasSmall = (conf.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL;
+//
+//            if (wasLarge) {
+//                toSubstract = Configuration.SCREENLAYOUT_SIZE_LARGE;
+//            } else if (wasNormal) {
+//                toSubstract = Configuration.SCREENLAYOUT_SIZE_NORMAL;
+//            } else if (wasSmall) {
+//                toSubstract = Configuration.SCREENLAYOUT_SIZE_SMALL;
+//            }
+//
+//            conf.screenLayout = conf.screenLayout - toSubstract + valueToAdd;
+//            app.getResources().updateConfiguration(conf,
+//                    app.getResources().getDisplayMetrics());
+//
+//        }
+//    }
 
     public void adjustLanguageConfig() {
         String language = getLanguage();

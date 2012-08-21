@@ -32,7 +32,6 @@ public class LevelSelectActivity extends Activity {
                 .getApplicationContext();
         Settings settings = app.getSettings();
         settings.adjustLanguageConfig();
-        settings.adjustDrawableConfig();
         RelativeLayout r = new RelativeLayout(this);
         ScrollView s =new ScrollView(this);
         
@@ -136,6 +135,9 @@ public class LevelSelectActivity extends Activity {
     }
     
     private boolean isAvailable(int id) {
+        if (Constants.DEBUG_ALL_LEVELS) {
+            return true;
+        }
         if (id == 0) {
             return true;
         }

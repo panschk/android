@@ -11,5 +11,8 @@ public class Constants {
 
     public static final String LEVEL = "LEVEL_";
     
+    
+    public static final boolean DEBUG_ALL_LEVELS = true;
+    
 
 }

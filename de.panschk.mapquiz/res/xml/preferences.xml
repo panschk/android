@@ -9,13 +9,13 @@
         android:key="@string/_language"
         android:title="@string/language" />
     
-     <ListPreference
-        android:defaultValue="@string/_image_size_device"
-        android:entries="@array/image_size"
-        android:entryValues="@array/image_size_values"
-        android:key="@string/_image_size_key"
-        android:summary="@string/select_the_size_of_the_maps_to_be_displayed"
-        android:title="@string/map_size" />
+<!--      <ListPreference -->
+<!--         android:defaultValue="@string/_image_size_device" -->
+<!--         android:entries="@array/image_size" -->
+<!--         android:entryValues="@array/image_size_values" -->
+<!--         android:key="@string/_image_size_key" -->
+<!--         android:summary="@string/select_the_size_of_the_maps_to_be_displayed" -->
+<!--         android:title="@string/map_size" /> -->
      
       <ListPreference
         android:defaultValue="normal"

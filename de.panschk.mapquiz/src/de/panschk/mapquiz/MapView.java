@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import de.panschk.mapquiz.objects.Entry;
@@ -48,8 +49,14 @@ public class MapView extends ImageView {
 		this.level = activity.getLevel();
 
 		// Create the bitmaps
-		mapBitmap = BitmapFactory.decodeResource(getResources(),
+		Bitmap bmp = BitmapFactory.decodeResource(getResources(),
 				level.pictureIdOfMap);
+		Display display = activity.getWindowManager().getDefaultDisplay();
+		int screenWidth = display.getWidth();
+		int heightForImg = screenWidth * bmp.getHeight() / bmp.getWidth();
+		mapBitmap=Bitmap.createScaledBitmap(bmp, screenWidth, heightForImg, true);
+
+		
 		dotBitmap = BitmapFactory.decodeResource(getResources(),
 				R.drawable.dot);
 		dotGreyBitmap = BitmapFactory.decodeResource(getResources(),
@@ -97,9 +104,9 @@ public class MapView extends ImageView {
 
             canvas.drawBitmap(dotGreyBitmap, xAdjusted, yAdjusted, mPaint);
         }
-        if (activity.hint != null && activity.hint.getTTL() > 0 ) {
-            int realX = realX(activity.hint.entry);
-            int realY = realY(activity.hint.entry);
+        if (activity.state.hint != null && activity.state.hint.getTTL() > 0 ) {
+            int realX = realX(activity.state.hint.entry);
+            int realY = realY(activity.state.hint.entry);
             int xAdjusted = Math.max(0, realX - offset);
             int yAdjusted = Math.max(0, realY - offset);
 

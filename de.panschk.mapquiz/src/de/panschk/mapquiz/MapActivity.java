@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import de.panschk.mapquiz.objects.Countdown;
 import de.panschk.mapquiz.objects.Entry;
+import de.panschk.mapquiz.objects.GameState;
 import de.panschk.mapquiz.objects.Hint;
 import de.panschk.mapquiz.objects.Level;
 import de.panschk.mapquiz.objects.instances.LevelFactory;
@@ -31,23 +32,18 @@ import de.panschk.mapquiz.util.Settings;
 import de.panschk.mapquiz.util.Settings.Difficulty;
 
 public class MapActivity extends Activity {
+    
+    public GameState state;
 
     public static final int DIALOG_FAILED = 1;
     public static final int DIALOG_WON = 2;
     public static final int DIALOG_MADE_HIGHSCORE = 5;
     
-    private int lives = 0;
-    private int mistakes = 0;
-    private Level level;
-
+    
     public Sound sound;
     public Settings settings;
-    private Difficulty difficulty;
 
-    public Hint hint;
-    public Countdown countdown;
     
-    public long startTime;
     
     
     @SuppressLint("HandlerLeak")
@@ -57,23 +53,28 @@ public class MapActivity extends Activity {
             MapActivity.this.drawTimer();
         };
     };
-    private Integer levelId;
-    private int score;
+
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Object lastNonConfigurationInstance = getLastNonConfigurationInstance(); 
+        
+
 
         sound = new Sound(this);
         MapquizApplication app = (MapquizApplication) this
                 .getApplicationContext();
 
         settings = app.getSettings();
-        settings.adjustDrawableConfig();
         settings.adjustLanguageConfig();
-
-        initGame();
+        if (lastNonConfigurationInstance instanceof GameState) {
+            this.state =  (GameState) lastNonConfigurationInstance;
+        } else {
+            initGame();
+        }
         setContentView(R.layout.maplayout);
         MapView mapView = (MapView) findViewById(R.id.mapView);
 
@@ -109,7 +110,7 @@ public class MapActivity extends Activity {
     private Dialog createWonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(
-                getString(R.string.good_job_you_solved_the_level_) + level.name
+                getString(R.string.good_job_you_solved_the_level_) + state.level.name
                         + "!")
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok,
@@ -137,7 +138,7 @@ public class MapActivity extends Activity {
         .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                HighscoreHelper.putHSList(score, input.getText().toString(), levelId, MapActivity.this);
+                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId, MapActivity.this);
                                 Intent i = new Intent(MapActivity.this,
                                         LevelSelectActivity.class);
                                 startActivity(i);
@@ -146,8 +147,8 @@ public class MapActivity extends Activity {
                         });
         builder.setNeutralButton("Show Highscore List",  new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                HighscoreHelper.putHSList(score, input.getText().toString(), levelId, MapActivity.this);
-                                showDialog(Constants.ID_OFFSET_HIGHSCORE + levelId);
+                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId, MapActivity.this);
+                                showDialog(Constants.ID_OFFSET_HIGHSCORE + state.levelId);
                                 
                             }
                         });
@@ -167,7 +168,7 @@ public class MapActivity extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent i = new Intent(MapActivity.this,
                                         MapActivity.class);
-                                i.putExtra(Constants.LEVEL_KEY, level.levelId);
+                                i.putExtra(Constants.LEVEL_KEY, state.level.levelId);
                                 startActivity(i);
                                 MapActivity.this.finish();
                             }
@@ -183,27 +184,28 @@ public class MapActivity extends Activity {
     }
 
     private void initGame() {
+        state = new GameState();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         Object levelKey = extras.get(Constants.LEVEL_KEY);
         LevelFactory levels = new LevelFactory(this);
-        levelId =(Integer) levelKey;
-        this.level = levels.getLevel(LevelEnum.values()[levelId]);
-        this.difficulty = settings.getDifficulty();
-        if (difficulty == Difficulty.EASY) {
-            lives = 5;
-        } else if (difficulty == Difficulty.MEDIUM) {
-            lives = 3;
-        } else if (difficulty == Difficulty.HARD) {
-            lives = 1;
-        } else if (difficulty == Difficulty.EXTREME) {
-            lives = 0;
+        state.levelId =(Integer) levelKey;
+        state.level = levels.getLevel(LevelEnum.values()[state.levelId]);
+        state.difficulty = settings.getDifficulty();
+        if (state.difficulty == Difficulty.EASY) {
+            state.lives = 5;
+        } else if (state.difficulty == Difficulty.MEDIUM) {
+            state.lives = 3;
+        } else if (state.difficulty == Difficulty.HARD) {
+            state.lives = 1;
+        } else if (state.difficulty == Difficulty.EXTREME) {
+            state.lives = 0;
         }
 
     }
 
     public Level getLevel() {
-        return level;
+        return state.level;
     }
 
     public boolean nextEntry() {
@@ -231,11 +233,11 @@ public class MapActivity extends Activity {
             scoreText.setAnimation(animation);
 
         }
-        if (level.entriesToDo.size() > 0) {
-            Entry removed = level.entriesToDo.remove(0);
-            level.entriesDone.add(removed);
+        if (state.level.entriesToDo.size() > 0) {
+            Entry removed = state.level.entriesToDo.remove(0);
+            state.level.entriesDone.add(removed);
         }
-        if (level.entriesToDo.size() > 0) {
+        if (state.level.entriesToDo.size() > 0) {
             return true;
         } else {
             return false;
@@ -244,8 +246,8 @@ public class MapActivity extends Activity {
 
     public void nextLevel() {
         String name ="panschk_test";
-        score = calculateScore();
-        if (HighscoreHelper.madeHSList(score, levelId, this)) {
+        state.score = calculateScore();
+        if (HighscoreHelper.madeHSList(state.score, state.levelId, this)) {
             showDialog(DIALOG_MADE_HIGHSCORE);
         } else {
             showDialog(DIALOG_WON);
@@ -254,31 +256,31 @@ public class MapActivity extends Activity {
 
     private int calculateScore() {
         
-        long duration = System.currentTimeMillis() - startTime;
+        long duration = System.currentTimeMillis() - state.startTime;
         
         int timeScore = 40000 / (((int)(duration +1)/1000) + 1);
         
-        int mistakeScore = (5 - mistakes) * 200;
+        int mistakeScore = (5 - state.mistakes) * 200;
         return timeScore + mistakeScore;
     }
 
     public void removeLife() {
-        mistakes++;
-        lives--;
+        state.mistakes++;
+        state.lives--;
         if (settings.getVibrateEnabled()) {
             Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             // Vibrate for 300 milliseconds
             v.vibrate(new long[] { 0, 100, 50, 100 }, -1);
         }
-        if (lives < 0) {
+        if (state.lives < 0) {
             sound.playSound(Sound.FAIL);
-            countdown = null;
+            state.countdown = null;
             showDialog(DIALOG_FAILED);
         } else {
             sound.playSound(Sound.WRONG);
 
-            if (difficulty == Difficulty.EASY) {
-                this.hint = new Hint(level.entriesToDo.get(0),
+            if (state.difficulty == Difficulty.EASY) {
+                state.hint = new Hint(state.level.entriesToDo.get(0),
                         System.currentTimeMillis());
             }
 
@@ -307,8 +309,8 @@ public class MapActivity extends Activity {
 
             }
             drawLives();
-            Entry toSwitch = level.entriesToDo.remove(0);
-            level.entriesToDo.add(toSwitch);
+            Entry toSwitch = state.level.entriesToDo.remove(0);
+            state.level.entriesToDo.add(toSwitch);
             drawQuestion();
 
         }
@@ -317,7 +319,7 @@ public class MapActivity extends Activity {
     public void drawLives() {
         String str = "";
         int i = 0;
-        while (i < lives) {
+        while (i < state.lives) {
             str += getResources().getString(R.string.heart);
             i++;
         }
@@ -332,31 +334,31 @@ public class MapActivity extends Activity {
 
         TextView scoreText = (TextView) findViewById(R.id.scoreText);
         if (scoreText != null) {
-            scoreText.setText(level.entriesDone.size() + "/"
-                    + level.getTotalEntries());
+            scoreText.setText(state.level.entriesDone.size() + "/"
+                    + state.level.getTotalEntries());
         }
     }
 
     public void drawQuestion() {
-        Entry newEntry = level.entriesToDo.get(0);
+        Entry newEntry = state.level.entriesToDo.get(0);
         TextView questionText = (TextView) findViewById(R.id.questionText);
         if (questionText != null) {
             String prefix = getResources().getString(R.string.clickinstruction);
             questionText.setText(prefix + newEntry.name);
         }
-        if (difficulty == Difficulty.EXTREME && lives >= 0) {
-            this.countdown = new Countdown(System.currentTimeMillis());
+        if (state.difficulty == Difficulty.EXTREME && state.lives >= 0) {
+            state.countdown = new Countdown(System.currentTimeMillis());
         }
 
     }
 
     public void drawTimer() {
         TextView timerText = (TextView) findViewById(R.id.timeText);
-        if (timerText != null && countdown != null) {
-            int time = (int) countdown.getTimeLeft();
+        if (timerText != null && state.countdown != null) {
+            int time = (int) state.countdown.getTimeLeft();
             if (time < 0) {
                 sound.playSound(Sound.FAIL);
-                countdown = null;
+                state.countdown = null;
                 showDialog(DIALOG_FAILED);
             } else {
                 float time2 = (time/100) / 10.0f;
@@ -367,7 +369,7 @@ public class MapActivity extends Activity {
     }
 
     public void onFirstDraw() {
-        startTime = System.currentTimeMillis();
+        state.startTime = System.currentTimeMillis();
         drawQuestion();
         drawLives();
         // create a thread for updating the timer
@@ -377,7 +379,7 @@ public class MapActivity extends Activity {
                     while (!MapActivity.this.isFinishing()) {
                         Thread.sleep(100);
                         handler.sendMessage(handler.obtainMessage());
-                        if (MapActivity.this.countdown != null && MapActivity.this.countdown.getTimeLeft() < 0) {
+                        if (state.countdown != null && state.countdown.getTimeLeft() < 0) {
                             return;
                         }
                     }
@@ -388,5 +390,10 @@ public class MapActivity extends Activity {
         });
         background.start();
     }
+    
 
+    
+    public Object onRetainNonConfigurationInstance () {
+        return state;
+    }
 }

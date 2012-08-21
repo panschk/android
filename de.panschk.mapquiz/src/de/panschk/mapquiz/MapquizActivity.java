@@ -25,7 +25,6 @@ public class MapquizActivity extends Activity {
                 .getApplicationContext();
         settings = app.getSettings();
         settings.adjustLanguageConfig();
-        settings.adjustDrawableConfig();
         setContentView(R.layout.main);
         setListeners();
     }
