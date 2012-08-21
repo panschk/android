@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.Level;
-import de.panschk.mapquiz.threads.TimerThread;
 
 /**
  * The FingerprintsView draws the background and any finger prints present from

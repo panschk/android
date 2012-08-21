@@ -1,5 +1,7 @@
 package de.panschk.mapquiz;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import de.panschk.mapquiz.objects.Level;
 import de.panschk.mapquiz.objects.instances.LevelFactory;
 import de.panschk.mapquiz.objects.instances.LevelFactory.LevelEnum;
 import de.panschk.mapquiz.util.HighscoreHelper;
+import de.panschk.mapquiz.util.HighscoreHelper.HSEntry;
 import de.panschk.mapquiz.util.Settings;
 
 public class LevelSelectActivity extends Activity {
@@ -57,6 +60,8 @@ public class LevelSelectActivity extends Activity {
             LevelFactory levels = new LevelFactory(this);
             Level level = levels.getLevel(LevelEnum.values()[id]);
             if (level != null) {
+                boolean isAvailable = isAvailable(id);
+                
                 LinearLayout container = new LinearLayout(this);
                 container.setId(id + 1);
                 RelativeLayout.LayoutParams paramsContainer = new RelativeLayout.LayoutParams(
@@ -79,11 +84,20 @@ public class LevelSelectActivity extends Activity {
                         LayoutParams.FILL_PARENT, 100);
                 paramsButton.weight = 0.8f;
                 b.setLayoutParams(paramsButton);
-                Drawable drawable = getResources().getDrawable(
-                        level.pictereIdThumbnail);
+                Drawable drawable;
+                if (isAvailable) {
+                    drawable = getResources().getDrawable(
+                            level.pictereIdThumbnail);
+
+                    b.setText(level.name);
+                } else {
+                    drawable = getResources().getDrawable(
+                            R.drawable.thumb_unknown);
+                    b.setText("???");
+                }
                 drawable.setBounds(0, 0, 100, 80);
                 b.setCompoundDrawables(drawable, null, null, null);
-                b.setText(level.name);
+                b.setClickable(isAvailable);
                 b.setId(Constants.ID_OFFSET_BUTTON + id);
                 b.setOnClickListener(new OnClickListener() {
 
@@ -121,6 +135,17 @@ public class LevelSelectActivity extends Activity {
         }
     }
     
+    private boolean isAvailable(int id) {
+        if (id == 0) {
+            return true;
+        }
+        List<HSEntry> hs = HighscoreHelper.getHS(id - 1, this);
+        if (hs != null && hs.size() > 0 ){
+            return true;
+        }
+        return false;
+    }
+
     protected Dialog onCreateDialog(int id) {
         
         if (id >= Constants.ID_OFFSET_HIGHSCORE) {
