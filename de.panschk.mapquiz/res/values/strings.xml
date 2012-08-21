@@ -8,10 +8,15 @@
     <string name="europe_countries_all">Europe (All Countries)</string>
     <string name="europe_countries2">Europe (Countries 2)</string>
     <string name="europe_cities">Europe (biggest cities)</string>
-    
     <string name="clickinstruction">Click on &#160;</string>
     <string name="heart">&#9829;</string>
     <string name="three_hearts">&#9829;&#9829;&#9829;</string>
+    
+    <string name="defaultStr">Default</string>
+    <string name="english">English</string>
+    <string name="german">German</string>
+    
+    
     <string name="france">France</string>
     <string name="germany">Germany</string>
     <string name="england">England</string>
@@ -63,10 +68,8 @@
     <string name="title_activity_level_select">Select a Map</string>
     <string name="countries_of_europe">Countries of Europe</string>
     <string name="countries_of_africa_south">Countries of Africa (south)</string>
-    <string name="main_menu">Main Menu</string>
     <string name="cities_in_north_central_america">Cities in North/Central America</string>
-    
-	<string name="mexico_city">Mexico City</string>
+    <string name="mexico_city">Mexico City</string>
     <string name="new_york_city">New York City</string>
     <string name="los_angeles">Los Angeles</string>
     <string name="chicago">Chicago</string>
@@ -264,7 +267,7 @@
     <string name="guyana">Guyana</string>
     <string name="suriname">Suriname</string>
     <string name="french_guiana_france">French Guiana (France)</string>
-    <string name="brasil">Brasil</string>
+    <string name="brasil">Brazil</string>
     <string name="argentina">Argentina</string>
     <string name="bolivia">Bolivia</string>
     <string name="paraguay">Paraguay</string>
@@ -384,6 +387,7 @@
     <string name="vienna">Vienna</string>
     <string name="warsaw">Warsaw</string>
     <string name="bucharest">Bucharest</string>
+    <string name="barcelona">Barcelona</string>
     <string name="munich">Munich</string>
     <string name="milan">Milan</string>
     <string name="prague">Prague</string>
@@ -413,8 +417,42 @@
     <string name="mauritius">Mauritius</string>
     <string name="level_failed_retry_">Level failed. Retry?</string>
     <string name="good_job_you_solved_the_level_">"Good Job! You solved the level "</string>
-    <string name="ok">Ok</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="settings">Setttings</string>
+    <string name="enable_vibration_of_the_device">Enable vibration of the device</string>
+    <string name="vibration_feedback">Vibration Feedback</string>
+    <string name="select_the_size_of_the_maps_to_be_displayed">Select the size of the maps to be displayed</string>
+    <string name="map_size">Map Size</string>
+    <string name="map_size_device">Device Dependent</string>
+    <string name="map_size_small">Small</string>
+    <string name="map_size_normal">Normal</string>
+    <string name="map_size_large">Large</string>
     
+    <string name="play_sounds">Play Sounds</string>
+    <string name="language">Language</string>
+    <string name="general">General</string>
+    <string name="media">Media</string>
+    
+    <string name="difficulty">Difficulty</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="difficulty_extreme">Extreme</string>
+    
+    
+	<string name ="difficultyDesc">
+	    Easy:    5 bonus lives, show solution after mistake\n
+	    Medium:  3 bonus lives\n
+	    Hard:    1 bonus lives\n
+	    Extreme: 0 bonus lives, time pressure
+	    </string>    
+    <string name = "volume">Volume</string>
+    
+    <string name="world_largest_countries">World\'s largest countries</string>
+    
+    <string name="highscore">Highscore</string>
+    
+    <string name="you_made_the_highscore_list_enter_your_name_">You made the highscore list! Enter your name:</string>
+    
+    
+
 </resources>

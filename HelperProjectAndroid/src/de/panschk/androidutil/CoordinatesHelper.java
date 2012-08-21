@@ -17,9 +17,23 @@ import javax.swing.JFrame;
 
 public class CoordinatesHelper {
     
-    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable-large/north_central_america.png";
+    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable-large/world.png";
     static String[] strings = new String[]{
-        "Nassau"
+        "Russia",
+        "Canada",
+        "China",
+        "United States",
+        "Brazil",
+        "Aus",
+        "in",
+        "arg",
+        "kas",
+        "alg",
+        "Congo",
+        "Greenland",
+        "Saudia",
+        "Mexico",
+        "Indonesia"
         
     };
     

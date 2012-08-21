@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- do not translate content of this file! for internal use (not to show to user) -->
+	<string name="_image_size_key">image_size</string>
+	<string name="_image_size_values">image_size</string>
+    <string name="_image_size_small">small</string>
+    <string name="_image_size_normal">normal</string>
+    <string name="_image_size_large">large</string>
+    <string name="_image_size_device">device</string>
+    
+    <string name="_difficulty">difficulty</string>
+    <string name="_difficulty_easy">easy</string>
+    <string name="_difficulty_medium">medium</string>
+    <string name="_difficulty_hard">hard</string>
+    <string name="_difficulty_extreme">extreme</string>
+    
+    <string name="_volume">volume</string>
+    <string name="_sound">sound</string>
+    <string name="_vibrate">vibrate</string>
+    
+    <string name="_language">language</string>
+    <string name="_language_default">default</string>
+    
+    
+    
+    
+</resources>

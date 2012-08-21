@@ -12,6 +12,7 @@ import de.panschk.mapquiz.objects.Level;
 public class LevelFactory {
     
     public static enum LevelEnum {
+        LEVEL_WORLD_BIGGEST_COUNTRIES, 
         LEVEL_WORLD_CONTINENTS_ISLANDS,
         LEVEL_WORLD_OCEANS,
         LEVEL_WORLD_BIGGEST_CITIES,
@@ -65,6 +66,8 @@ public class LevelFactory {
         switch (level) {
         case LEVEL_WORLD_CONTINENTS_ISLANDS:
             return getWorldContinentsIslands(id);
+        case LEVEL_WORLD_BIGGEST_COUNTRIES:
+            return getWorldCountries(id);
         case LEVEL_WORLD_OCEANS:
             return getWorldOceans(id);
         case LEVEL_WORLD_BIGGEST_CITIES:
@@ -393,6 +396,31 @@ public class LevelFactory {
         Level level = new Level(id, name, entries, R.drawable.world, R.drawable.thumb_world, 1022, 616);
         return level;
     }
+    
+    private Level getWorldCountries(int id) {
+        String name = getResources().getString(R.string.world_largest_countries);
+        List<Entry> entries = new ArrayList<Entry>();
+        entries.add(new Entry( 763,  65, getResources().getString(R.string.russia)));
+        entries.add(new Entry( 194,  137, getResources().getString(R.string.canada)));
+        entries.add(new Entry( 813,  174, getResources().getString(R.string.china)));
+        entries.add(new Entry( 204,  207, getResources().getString(R.string.united_states_of_america)));
+        entries.add(new Entry( 346,  366, getResources().getString(R.string.brasil)));
+        entries.add(new Entry( 863,  403, getResources().getString(R.string.australia)));
+        entries.add(new Entry( 704,  270, getResources().getString(R.string.india)));
+        entries.add(new Entry( 297,  443, getResources().getString(R.string.argentina)));
+        entries.add(new Entry( 668,  174, getResources().getString(R.string.kazakhstan)));
+        entries.add(new Entry( 492,  235, getResources().getString(R.string.algeria)));
+        entries.add(new Entry( 545,  335, getResources().getString(R.string.dr_of_the_congo_kinshasa)));
+        entries.add(new Entry( 366,  39, getResources().getString(R.string.greenland)));
+        entries.add(new Entry( 612,  265, getResources().getString(R.string.saudi_arabia)));
+        entries.add(new Entry( 197,  274, getResources().getString(R.string.mexico)));
+        entries.add(new Entry( 797,  351, getResources().getString(R.string.indonesia)));
+
+        
+        Level level = new Level(id, name, entries, R.drawable.world, R.drawable.thumb_world, 1022, 616);
+        return level;
+
+    }
 
     private Level getWorldContinentsIslands(int id) {
         String name = getResources().getString(R.string.continents_and_biggest_islands);
@@ -596,7 +624,6 @@ public class LevelFactory {
         entries.add(new Entry( 718,  413, getResources().getString(R.string.sudan)));
         entries.add(new Entry( 740,  540, getResources().getString(R.string.south_sudan)));
         entries.add(new Entry( 563,  400, getResources().getString(R.string.chad)));
-        entries.add(new Entry( 553,  214, getResources().getString(R.string.libya)));
         entries.add(new Entry( 422,  362, getResources().getString(R.string.niger)));
         entries.add(new Entry( 591,  540, getResources().getString(R.string.central_african_republic)));
         
@@ -621,8 +648,9 @@ public class LevelFactory {
         entries.add(new Entry( 604, 433, getResources().getString(R.string.budapest)));
         entries.add(new Entry( 577, 416, getResources().getString(R.string.vienna)));
         entries.add(new Entry( 622, 343, getResources().getString(R.string.warsaw)));
-        entries.add(new Entry( 408, 525, getResources().getString(R.string.bucharest)));
-        entries.add(new Entry( 675, 475, getResources().getString(R.string.munich)));
+        entries.add(new Entry( 408, 525, getResources().getString(R.string.barcelona)));
+        entries.add(new Entry( 682, 479, getResources().getString(R.string.bucharest)));
+        entries.add(new Entry( 522, 411, getResources().getString(R.string.munich)));
         entries.add(new Entry( 491, 461, getResources().getString(R.string.milan)));
         entries.add(new Entry( 551, 387, getResources().getString(R.string.prague)));
         entries.add(new Entry( 661, 505, getResources().getString(R.string.sofia)));

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:robobunny="http://robobunny.com" >
+    <PreferenceCategory android:title="@string/general" >
+    <ListPreference
+        android:defaultValue="@string/_language_default"
+        android:entries="@array/languages"
+        android:entryValues="@array/languages_values"
+        android:key="@string/_language"
+        android:title="@string/language" />
+    
+     <ListPreference
+        android:defaultValue="@string/_image_size_device"
+        android:entries="@array/image_size"
+        android:entryValues="@array/image_size_values"
+        android:key="@string/_image_size_key"
+        android:summary="@string/select_the_size_of_the_maps_to_be_displayed"
+        android:title="@string/map_size" />
+     
+      <ListPreference
+        android:defaultValue="normal"
+        android:entries="@array/difficulty_levels"
+        android:entryValues="@array/difficulty_levels_values"
+        android:summary="@string/difficultyDesc"
+        android:key="@string/_difficulty"
+        android:title="@string/difficulty" />
+     
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/media" >
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/_vibrate"
+        android:summary="@string/enable_vibration_of_the_device"
+        android:title="@string/vibration_feedback" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/_sound"
+        android:title="@string/play_sounds" />
+
+        <com.robobunny.SeekBarPreference
+            android:defaultValue="5"
+            android:key="@string/_volume"
+            android:max="10"
+            android:summary="Set volume for sound effects"
+            android:title="@string/volume"
+            robobunny:min="0"
+            robobunny:unitsLeft=""
+            robobunny:unitsRight="" />
+        
+    </PreferenceCategory>
+
+   
+
+</PreferenceScreen>

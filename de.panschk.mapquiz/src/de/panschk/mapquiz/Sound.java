@@ -6,6 +6,7 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.util.Log;
 import android.util.SparseIntArray;
+import de.panschk.mapquiz.util.Settings;
 
 public class Sound {
 
@@ -13,22 +14,26 @@ public class Sound {
     public static int FAIL = 1;
     public static int RIGHT = 2;
     public static int WRONG = 3;
-    
-    
+
     private SparseIntArray idMap = new SparseIntArray();
-    
+
     private SoundPool soundPool;
     boolean loaded = false;
     private Activity activity;
+    private Settings settings;
 
     /** Called when the activity is first created. */
-    
+
     public Sound(Activity activity) {
         this.activity = activity;
         onCreate();
     }
 
     public void onCreate() {
+        MapquizApplication app = (MapquizApplication) activity
+                .getApplicationContext();
+
+        settings = app.getSettings();
         // Set the hardware buttons to control the music
         activity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         // Load the sound
@@ -47,23 +52,19 @@ public class Sound {
         idMap.put(RIGHT, soundID);
         soundID = soundPool.load(activity, R.raw.wrong, 1);
         idMap.put(WRONG, soundID);
-        
 
     }
 
     public void playSound(int soundId) {
         if (loaded) {
-            // Getting the user sound settings
-        AudioManager audioManager = (AudioManager) activity
-                .getSystemService(Activity.AUDIO_SERVICE);
-        float actualVolume = (float) audioManager
-                .getStreamVolume(AudioManager.STREAM_MUSIC);
-        float maxVolume = (float) audioManager
-                .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        float volume = actualVolume / maxVolume;
-        int idToPlay = idMap.get(soundId);
-            soundPool.play(idToPlay, volume, volume, 1, 0, 1f);
-            Log.d("Test", "Played sound");
+            if (settings.getSoundEnabled()) {
+                float volume = settings.getVolume() / 10.0f;
+                if (volume > 0) {
+                    int idToPlay = idMap.get(soundId);
+                    soundPool.play(idToPlay, volume, volume, 1, 0, 1f);
+                    Log.d("Test", "Played sound");
+                }
+            }
         }
     }
 }

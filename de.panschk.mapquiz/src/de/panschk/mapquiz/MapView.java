@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.Level;
+import de.panschk.mapquiz.threads.TimerThread;
 
 /**
  * The FingerprintsView draws the background and any finger prints present from
@@ -25,6 +26,8 @@ public class MapView extends ImageView {
 	private Level level;
 	private Bitmap dotBitmap;
 	private Bitmap dotGreyBitmap;
+	private Bitmap dotSolveBitmap;
+    
     
 	private float lastX;
 	private float lastY;
@@ -32,6 +35,7 @@ public class MapView extends ImageView {
 	private int offset = 7;
     public int height;
     public int width;
+
 
 	/**
 	 * Create the MapView
@@ -51,6 +55,9 @@ public class MapView extends ImageView {
 				R.drawable.dot);
 		dotGreyBitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.dot_green);
+		dotSolveBitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.dot_solve);
+        
 		this.width = mapBitmap.getWidth();
 		this.height = mapBitmap.getHeight();
         
@@ -58,19 +65,15 @@ public class MapView extends ImageView {
 	}
 
 	/**
-	 * Draw the finger prints over the flower field
+	 * 
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
-//        RelativeLayout container = (RelativeLayout) activity.findViewById(R.id.scene_container);
-//        container.setMinimumHeight(level.height);
-//        container.setMinimumWidth(level.width);
-//        this.setMinimumHeight(level.height);
-//        this.setMinimumWidth(level.width);
 	    if (firstDraw) {
-	        offset = dotBitmap.getHeight() / 2;
-	        activity.drawQuestion();
+	        activity.onFirstDraw();
 	        firstDraw = false;
+	        offset = dotBitmap.getHeight() / 2;
+	        
 	    }
 	    canvas.drawBitmap(mapBitmap, 0, 0, mPaint);
 
@@ -95,8 +98,16 @@ public class MapView extends ImageView {
 
             canvas.drawBitmap(dotGreyBitmap, xAdjusted, yAdjusted, mPaint);
         }
-        activity.drawScore();
+        if (activity.hint != null && activity.hint.getTTL() > 0 ) {
+            int realX = realX(activity.hint.entry);
+            int realY = realY(activity.hint.entry);
+            int xAdjusted = Math.max(0, realX - offset);
+            int yAdjusted = Math.max(0, realY - offset);
 
+            canvas.drawBitmap(dotSolveBitmap, xAdjusted, yAdjusted, mPaint);
+        }
+        
+        activity.drawScore();
 
 
 	}
@@ -154,7 +165,7 @@ public class MapView extends ImageView {
 		if ((Math.abs(realX - x) < 25) && Math.abs(realY - y) < offset * 2) {
 			if (activity.nextEntry()) {
 			    activity.sound.playSound(Sound.RIGHT);
-				activity.drawQuestion();
+			    activity.drawQuestion();
 			} else {
 			    activity.sound.playSound(Sound.WIN);
 				activity.nextLevel();

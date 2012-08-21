@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="difficulty_levels_values">
+        <item>@string/_difficulty_easy</item>
+        <item>@string/_difficulty_medium</item>
+        <item>@string/_difficulty_hard</item>
+        <item>@string/_difficulty_extreme</item>
+        
+        
+    </string-array>
+
+    
+
+    <string-array name="difficulty_levels">
+        <item>@string/difficulty_easy</item>
+        <item>@string/difficulty_medium</item>
+        <item>@string/difficulty_hard</item>
+        <item>@string/difficulty_extreme</item>
+    </string-array>
+
+    <string-array name="image_size_values">
+        <item>@string/_image_size_device</item>
+        <item>@string/_image_size_small</item>
+        <item>@string/_image_size_normal</item>
+        <item>@string/_image_size_large</item>
+    </string-array>
+    
+    <string-array name="image_size">
+        <item>@string/map_size_device</item>
+        <item>@string/map_size_small</item>
+        <item>@string/map_size_normal</item>
+        <item>@string/map_size_large</item>
+
+    </string-array>
+    
+    <string-array name="languages_values">
+        <item>@string/_language_default</item>
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+    <string-array name="languages">
+        <item>@string/defaultStr</item>
+        <item>@string/english</item>
+        <item>@string/german</item>
+    </string-array>
+
+</resources>
