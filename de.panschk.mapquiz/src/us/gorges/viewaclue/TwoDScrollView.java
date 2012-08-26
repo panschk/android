@@ -82,6 +82,8 @@ public class TwoDScrollView extends FrameLayout {
     private int mTouchSlop;
     private int mMinimumVelocity;
     //private int mMaximumVelocity;
+    private float mFirstMotionY;
+    private float mFirstMotionX;
 
     public TwoDScrollView(Context context) {
         super(context);
@@ -329,6 +331,8 @@ public class TwoDScrollView extends FrameLayout {
                 // Remember where the motion event started
                 mLastMotionY = y;
                 mLastMotionX = x;
+                mFirstMotionX = x;
+                mFirstMotionY = y;
                 break;
             case MotionEvent.ACTION_MOVE:
                 // Scroll to follow the motion event
@@ -376,12 +380,16 @@ public class TwoDScrollView extends FrameLayout {
                 if ((Math.abs(initialXVelocity) + Math.abs(initialYVelocity) > mMinimumVelocity) && getChildCount() > 0) {
                     fling(-initialXVelocity, -initialYVelocity);
                 } else {
-                    try {
-                        MapView mapView = (MapView) findViewById(R.id.mapView);
-                        mapView.onClick();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    int MAX_SCROLL_OFFEST = 50;
+                    if ((Math.abs(mFirstMotionX - x) + Math.abs(mFirstMotionY - y ) < MAX_SCROLL_OFFEST)) {
+                        try {
+                            MapView mapView = (MapView) findViewById(R.id.mapView);
+                            mapView.onClick();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
+                    
                     
                 }
 

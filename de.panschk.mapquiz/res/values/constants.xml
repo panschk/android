@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!-- do not translate content of this file! for internal use (not to show to user) -->
-	<string name="_image_size_key">image_size</string>
-	<string name="_image_size_values">image_size</string>
-    <string name="_image_size_small">small</string>
-    <string name="_image_size_normal">normal</string>
-    <string name="_image_size_large">large</string>
-    <string name="_image_size_device">device</string>
+	<string name="_show_msg_key">show_msg</string>
+    <string name="_show_msg_always">show_msg_always</string>
+    <string name="_show_msg_error">show_msg_error</string>
+    <string name="_show_msg_never">show_msg_never</string>
     
+	
+	
     <string name="_difficulty">difficulty</string>
     <string name="_difficulty_easy">easy</string>
     <string name="_difficulty_medium">medium</string>

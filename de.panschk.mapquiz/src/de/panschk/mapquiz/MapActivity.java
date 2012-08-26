@@ -1,6 +1,8 @@
 package de.panschk.mapquiz;
 
-import android.annotation.SuppressLint;
+import java.lang.ref.WeakReference;
+
+import us.gorges.viewaclue.TwoDScrollView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,13 +15,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.text.InputType;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import de.panschk.mapquiz.gui.OptionsDialog;
 import de.panschk.mapquiz.objects.Countdown;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.GameState;
@@ -27,6 +34,9 @@ import de.panschk.mapquiz.objects.Hint;
 import de.panschk.mapquiz.objects.Level;
 import de.panschk.mapquiz.objects.instances.LevelFactory;
 import de.panschk.mapquiz.objects.instances.LevelFactory.LevelEnum;
+import de.panschk.mapquiz.objects.instances.LevelFactoryBonus;
+import de.panschk.mapquiz.objects.instances.LevelFactoryBonus.LevelEnumBonus;
+import de.panschk.mapquiz.util.DisplayStringHelper;
 import de.panschk.mapquiz.util.HighscoreHelper;
 import de.panschk.mapquiz.util.Settings;
 import de.panschk.mapquiz.util.Settings.Difficulty;
@@ -37,7 +47,10 @@ public class MapActivity extends Activity {
 
     public static final int DIALOG_FAILED = 1;
     public static final int DIALOG_WON = 2;
-    public static final int DIALOG_MADE_HIGHSCORE = 5;
+    public static final int DIALOG_OPTIONS = 3;
+    public static final int DIALOG_RIGHT = 4;
+    public static final int DIALOG_WRONG = 5;
+    public static final int DIALOG_MADE_HIGHSCORE = 6;
     
     
     public Sound sound;
@@ -46,13 +59,23 @@ public class MapActivity extends Activity {
     
     
     
-    @SuppressLint("HandlerLeak")
-    Handler handler=new Handler() {
+    MAHandler handler=new MAHandler(this);
+
+    private MapView mapView;
+    
+    static class MAHandler extends Handler {
+        WeakReference<MapActivity> wrActivity;
+        public MAHandler (MapActivity m) {
+            super();
+            wrActivity = new WeakReference<MapActivity>(m);
+        }
         @Override
         public void handleMessage(Message msg) {
-            MapActivity.this.drawTimer();
+            if (wrActivity != null && wrActivity.get()!=null) {
+                wrActivity.get().drawTimer();
+            }
         };
-    };
+    }
 
 
     /** Called when the activity is first created. */
@@ -76,7 +99,17 @@ public class MapActivity extends Activity {
             initGame();
         }
         setContentView(R.layout.maplayout);
-        MapView mapView = (MapView) findViewById(R.id.mapView);
+        
+        ImageButton optionsButton = (ImageButton) findViewById(R.id.optionsButton);
+        optionsButton.setOnClickListener(new OnClickListener() {
+            
+            public void onClick(View v) {
+                showDialog(DIALOG_OPTIONS);
+                
+            }
+        });
+        
+        mapView = (MapView) findViewById(R.id.mapView);
 
         LayoutParams layoutParams = mapView.getLayoutParams();
         layoutParams.height = mapView.height;
@@ -90,6 +123,32 @@ public class MapActivity extends Activity {
         container.setLayoutParams(layoutParams);
 
     }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            showDialog(DIALOG_OPTIONS);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+        
+        switch (id) {
+        case DIALOG_RIGHT:
+            ((AlertDialog) dialog).setMessage(DisplayStringHelper.getRndCorrectSolutionString(this));
+            break;
+        case DIALOG_WRONG:
+            ((AlertDialog) dialog).setMessage(getString(R.string.wrong_)+ getString(R.string.you_clicked_on_)+state.lastWrongGuess.name+".");
+            break;
+
+        default:
+            break;
+        }
+        
+    }
 
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -99,12 +158,52 @@ public class MapActivity extends Activity {
             return createWonDialog();
         case DIALOG_MADE_HIGHSCORE:
             return createMadeHSDialog();
+        case DIALOG_OPTIONS:
+            return createOptionsDialog();
+        case DIALOG_WRONG:
+            return createGuessWrongDialog();
+        case DIALOG_RIGHT:
+            return createGuessRightDialog();
+                
         default:
             if (id >= Constants.ID_OFFSET_HIGHSCORE) {
                 return HighscoreHelper.createHighscoreDialog(id, this, true);
             }
             return null;
         }
+    }
+
+    private Dialog createGuessRightDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(DisplayStringHelper.getRndCorrectSolutionString(this))
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+
+        AlertDialog alert = builder.create();
+        return alert;
+    }
+
+    private Dialog createGuessWrongDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.wrong_+ R.string.you_clicked_on_+state.lastWrongGuess.name+".")
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+
+        AlertDialog alert = builder.create();
+        return alert;
+    }
+
+    private Dialog createOptionsDialog() {
+        return new OptionsDialog(this);
+        
     }
 
     private Dialog createWonDialog() {
@@ -116,9 +215,6 @@ public class MapActivity extends Activity {
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent i = new Intent(MapActivity.this,
-                                        LevelSelectActivity.class);
-                                startActivity(i);
                                 MapActivity.this.finish();
                             }
                         });
@@ -138,16 +234,25 @@ public class MapActivity extends Activity {
         .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId, MapActivity.this);
-                                Intent i = new Intent(MapActivity.this,
-                                        LevelSelectActivity.class);
-                                startActivity(i);
+                                int offset;
+                                if (state.isBonus) {
+                                    offset = HighscoreHelper.BONUS_LEVELS_OFFSET;
+                                } else {
+                                    offset = 0;
+                                }
+                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId + offset, MapActivity.this);
                                 MapActivity.this.finish();
                             }
                         });
         builder.setNeutralButton("Show Highscore List",  new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId, MapActivity.this);
+                                int offset;
+                                if (state.isBonus) {
+                                    offset = HighscoreHelper.BONUS_LEVELS_OFFSET;
+                                } else {
+                                    offset = 0;
+                                }
+                                HighscoreHelper.putHSList(state.score, input.getText().toString(), state.levelId + offset, MapActivity.this);
                                 showDialog(Constants.ID_OFFSET_HIGHSCORE + state.levelId);
                                 
                             }
@@ -169,6 +274,7 @@ public class MapActivity extends Activity {
                                 Intent i = new Intent(MapActivity.this,
                                         MapActivity.class);
                                 i.putExtra(Constants.LEVEL_KEY, state.level.levelId);
+                                i.putExtra(Constants.BONUS_LEVELS, state.isBonus);
                                 startActivity(i);
                                 MapActivity.this.finish();
                             }
@@ -187,19 +293,32 @@ public class MapActivity extends Activity {
         state = new GameState();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        Object levelKey = extras.get(Constants.LEVEL_KEY);
-        LevelFactory levels = new LevelFactory(this);
+        Integer levelKey = extras.getInt(Constants.LEVEL_KEY);
+        state.isBonus = extras.getBoolean(Constants.BONUS_LEVELS);
         state.levelId =(Integer) levelKey;
-        state.level = levels.getLevel(LevelEnum.values()[state.levelId]);
-        state.difficulty = settings.getDifficulty();
-        if (state.difficulty == Difficulty.EASY) {
-            state.lives = 5;
-        } else if (state.difficulty == Difficulty.MEDIUM) {
-            state.lives = 3;
-        } else if (state.difficulty == Difficulty.HARD) {
-            state.lives = 1;
-        } else if (state.difficulty == Difficulty.EXTREME) {
+        if (state.isBonus) {
+            LevelFactory levels = new LevelFactoryBonus(this);
+            state.level = levels.getLevel(LevelEnumBonus.values()[state.levelId]);
+        } else {
+            LevelFactory levels = new LevelFactory(this);
+            state.level = levels.getLevel(LevelEnum.values()[state.levelId]);
+        }
+        String mode = extras.getString(Constants.MAP_MODE);
+        if (mode!=null && mode.equals(Constants.MAP_MODE_TRAINING)) {
+            state.isTraingMode = true;
+            state.difficulty = Difficulty.TRAINING;
             state.lives = 0;
+        } else {
+            state.difficulty = settings.getDifficulty();
+            if (state.difficulty == Difficulty.EASY) {
+                state.lives = 5;
+            } else if (state.difficulty == Difficulty.MEDIUM) {
+                state.lives = 3;
+            } else if (state.difficulty == Difficulty.HARD) {
+                state.lives = 1;
+            } else if (state.difficulty == Difficulty.EXTREME) {
+                state.lives = 0;
+            }
         }
 
     }
@@ -233,6 +352,9 @@ public class MapActivity extends Activity {
             scoreText.setAnimation(animation);
 
         }
+        if (settings.showDialogAfterCorrectGuess()) {
+            showDialog(DIALOG_RIGHT);
+        }
         if (state.level.entriesToDo.size() > 0) {
             Entry removed = state.level.entriesToDo.remove(0);
             state.level.entriesDone.add(removed);
@@ -244,10 +366,15 @@ public class MapActivity extends Activity {
         }
     }
 
-    public void nextLevel() {
-        String name ="panschk_test";
+    public void completeLevel() {
         state.score = calculateScore();
-        if (HighscoreHelper.madeHSList(state.score, state.levelId, this)) {
+        int offset;
+        if (state.isBonus) {
+            offset = HighscoreHelper.BONUS_LEVELS_OFFSET;
+        } else {
+            offset = 0;
+        }
+        if (HighscoreHelper.madeHSList(state.score, offset + state.levelId, this)) {
             showDialog(DIALOG_MADE_HIGHSCORE);
         } else {
             showDialog(DIALOG_WON);
@@ -279,10 +406,13 @@ public class MapActivity extends Activity {
         } else {
             sound.playSound(Sound.WRONG);
 
-            if (state.difficulty == Difficulty.EASY) {
-                state.hint = new Hint(state.level.entriesToDo.get(0),
-                        System.currentTimeMillis());
-            }
+            state.hint = new Hint(state.level.entriesToDo.get(0),
+                    System.currentTimeMillis());
+            int realX = mapView.realX(state.hint.entry);
+            int realY = mapView.realY(state.hint.entry);
+            
+            TwoDScrollView scrollView = (TwoDScrollView) findViewById(R.id.scene_scroller);
+            scrollView.scrollTo(realX, realY-70);
 
             final TextView livesText = (TextView) findViewById(R.id.livesText);
             if (livesText != null) {
@@ -309,6 +439,9 @@ public class MapActivity extends Activity {
 
             }
             drawLives();
+            if (settings.showDialogAfterWrongGuess()) {
+                showDialog(DIALOG_WRONG);
+            }
             Entry toSwitch = state.level.entriesToDo.remove(0);
             state.level.entriesToDo.add(toSwitch);
             drawQuestion();
@@ -340,11 +473,17 @@ public class MapActivity extends Activity {
     }
 
     public void drawQuestion() {
+
         Entry newEntry = state.level.entriesToDo.get(0);
         TextView questionText = (TextView) findViewById(R.id.questionText);
         if (questionText != null) {
-            String prefix = getResources().getString(R.string.clickinstruction);
-            questionText.setText(prefix + newEntry.name);
+            if (state.isTraingMode) {
+                questionText.setText(R.string.click_on_any_dot);
+            }
+            else {
+                String prefix = getResources().getString(R.string.clickinstruction);
+                questionText.setText(prefix + newEntry.name);
+            }
         }
         if (state.difficulty == Difficulty.EXTREME && state.lives >= 0) {
             state.countdown = new Countdown(System.currentTimeMillis());
@@ -373,27 +512,44 @@ public class MapActivity extends Activity {
         drawQuestion();
         drawLives();
         // create a thread for updating the timer
-        Thread background = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    while (!MapActivity.this.isFinishing()) {
-                        Thread.sleep(100);
-                        handler.sendMessage(handler.obtainMessage());
-                        if (state.countdown != null && state.countdown.getTimeLeft() < 0) {
-                            return;
+        if (state.difficulty == Difficulty.EXTREME) {
+            Thread background = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        while (!MapActivity.this.isFinishing()) {
+                            Thread.sleep(100);
+                            handler.sendMessage(handler.obtainMessage());
+                            if (state.countdown != null && state.countdown.getTimeLeft() < 0) {
+                                return;
+                            }
                         }
                     }
+                    catch (Throwable t) {
+                    }
                 }
-                catch (Throwable t) {
-                }
-            }
-        });
-        background.start();
+            });
+            background.start();
+        }
     }
     
 
     
     public Object onRetainNonConfigurationInstance () {
         return state;
+    }
+
+    public void showTraingingModeText(Entry e) {
+        TextView questionText = (TextView) findViewById(R.id.questionText);
+        questionText.setText(e.name);
+        //remove the old "selected entry"
+        if (state.level.entriesDone.size() > 0) {
+            Entry remove = state.level.entriesDone.remove(0);
+            state.level.entriesToDo.add(remove);
+        }
+        // add new "selected entry"
+        state.level.entriesDone.add(e);
+        state.level.entriesToDo.remove(e);
+        
+        
     }
 }

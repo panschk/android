@@ -13,5 +13,9 @@ public class GameState {
     public long startTime;
     public Integer levelId;
     public int score;
+    public boolean isTraingMode = false;
+    public boolean isBonus;
+    public Entry lastWrongGuess;
+    public long timeOfLastGuess;
 
 }

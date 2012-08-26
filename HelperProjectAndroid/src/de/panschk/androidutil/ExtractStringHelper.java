@@ -12,7 +12,7 @@ import java.util.Set;
 public class ExtractStringHelper {
 
     public static void main (String[] args) throws IOException {
-        String fileName = "LOCATION OF .JAVA FILE";
+        String fileName = "C:/workspaces/git/android/de.panschk.mapquiz/src/de/panschk/mapquiz/objects/instances/LevelFactoryBonus.java";
         FileInputStream fis = new FileInputStream(fileName);
         streamToStringReplaceEntities(fis);
         fis.close();

@@ -19,18 +19,36 @@ import android.widget.ScrollView;
 import de.panschk.mapquiz.objects.Level;
 import de.panschk.mapquiz.objects.instances.LevelFactory;
 import de.panschk.mapquiz.objects.instances.LevelFactory.LevelEnum;
+import de.panschk.mapquiz.objects.instances.LevelFactoryBonus;
+import de.panschk.mapquiz.objects.instances.LevelFactoryBonus.LevelEnumBonus;
 import de.panschk.mapquiz.util.HighscoreHelper;
 import de.panschk.mapquiz.util.HighscoreHelper.HSEntry;
 import de.panschk.mapquiz.util.Settings;
 
 public class LevelSelectActivity extends Activity {
-
+    
+    
+    private Drawable star;
+    private Drawable starGrey;
+    private Drawable unknown;
+    
+    boolean isBonus = false;
+    boolean bonusLevelsAvailable = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MapquizApplication app = (MapquizApplication) this
                 .getApplicationContext();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            isBonus = extras.getBoolean(Constants.BONUS_LEVELS);
+        }
         Settings settings = app.getSettings();
+        bonusLevelsAvailable = settings.bonusLevelsAvailable();
+        if (!bonusLevelsAvailable) {
+            checkBonusLevelsAvailable(settings);
+        }
         settings.adjustLanguageConfig();
         RelativeLayout r = new RelativeLayout(this);
         ScrollView s =new ScrollView(this);
@@ -38,10 +56,30 @@ public class LevelSelectActivity extends Activity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.FILL_PARENT,
                 RelativeLayout.LayoutParams.FILL_PARENT);
+        star = getResources().getDrawable(R.drawable.star);
+        star.setBounds(0, 0, 48, 48);
+        starGrey = getResources().getDrawable(R.drawable.star_grey);
+        starGrey.setBounds(0, 0, 48, 48);
+        unknown = getResources().getDrawable(R.drawable.thumb_unknown);
+        
+        
         r.setLayoutParams(params);
         addButtons(r);
         s.addView(r);
         setContentView(s);
+    }
+
+    private boolean checkBonusLevelsAvailable(Settings settings) {
+        LevelEnum[] values = LevelEnum.values();
+        for (LevelEnum levelEnum : values) {
+            List<HSEntry> hs = HighscoreHelper.getHS(levelEnum.ordinal(), this);
+            if (! ( hs != null && hs.size() > 0) ) {
+                return false;
+            }
+        }
+        settings.setBonusLevelsAvailable(true);
+        return true;
+        
     }
 
     @Override
@@ -51,15 +89,28 @@ public class LevelSelectActivity extends Activity {
     }
 
     private void addButtons(RelativeLayout r) {
+        LevelFactory levels;
+        Enum[] values;
+        if (isBonus) {
+            levels = new LevelFactoryBonus(this);
+            values = LevelEnumBonus.values();
+        } else {
+            levels = new LevelFactory(this);
+            values = LevelEnum.values();
+        }
 
-        LevelEnum[] values = LevelEnum.values();
         LinearLayout lastOne = null;
-        for (LevelEnum levelEnum : values) {
-            final int id = levelEnum.ordinal();
-            LevelFactory levels = new LevelFactory(this);
-            Level level = levels.getLevel(LevelEnum.values()[id]);
+        for (Enum enumInst : values) {
+            final int id = enumInst.ordinal();
+
+            Level level;
+            if (isBonus) {
+                level = levels.getLevel(LevelEnumBonus.values()[id]);
+            } else  {
+                level = levels.getLevel(LevelEnum.values()[id]);
+            }
             if (level != null) {
-                boolean isAvailable = isAvailable(id);
+                final boolean isAvailable = isAvailable(id);
                 
                 LinearLayout container = new LinearLayout(this);
                 container.setId(id + 1);
@@ -90,8 +141,7 @@ public class LevelSelectActivity extends Activity {
 
                     b.setText(level.name);
                 } else {
-                    drawable = getResources().getDrawable(
-                            R.drawable.thumb_unknown);
+                    drawable = unknown;
                     b.setText("???");
                 }
                 drawable.setBounds(0, 0, 100, 80);
@@ -101,10 +151,13 @@ public class LevelSelectActivity extends Activity {
                 b.setOnClickListener(new OnClickListener() {
 
                     public void onClick(View v) {
-                        Intent i = new Intent(LevelSelectActivity.this,
-                                MapActivity.class);
-                        i.putExtra(Constants.LEVEL_KEY, id);
-                        startActivity(i);
+                        if (isAvailable) {
+                            Intent i = new Intent(LevelSelectActivity.this,
+                                    MapActivity.class);
+                            i.putExtra(Constants.LEVEL_KEY, id);
+                            i.putExtra(Constants.BONUS_LEVELS, isBonus);
+                            startActivity(i);
+                        }
 
                     }
                 });
@@ -115,17 +168,15 @@ public class LevelSelectActivity extends Activity {
                 LinearLayout.LayoutParams paramsHS = new LinearLayout.LayoutParams(100, 100);
                 paramsHS.weight = 0.2f;
                 highscore.setLayoutParams(paramsHS);
-                Drawable star = getResources().getDrawable(R.drawable.star);
-                star.setBounds(0, 0, 48, 48);
-                highscore.setCompoundDrawables(star, null, null, null);
+
+                highscore.setCompoundDrawables(hasCompleted(id) ? star : starGrey, null, null, null);
+                final int highScoreOffset = Constants.ID_OFFSET_HIGHSCORE + (isBonus ? HighscoreHelper.BONUS_LEVELS_OFFSET : 0);
                 highscore.setId(Constants.ID_OFFSET_HIGHSCORE + id);
                 highscore.setOnClickListener(new OnClickListener() {
 
                     public void onClick(View v) {
                         
-                        showDialog(Constants.ID_OFFSET_HIGHSCORE + id);
-
-
+                        showDialog(highScoreOffset + id);
                     }
                 });
                 container.addView(highscore);
@@ -135,13 +186,28 @@ public class LevelSelectActivity extends Activity {
     }
     
     private boolean isAvailable(int id) {
+
         if (Constants.DEBUG_ALL_LEVELS) {
             return true;
+        }
+        if (isBonus) {
+            return bonusLevelsAvailable;
         }
         if (id == 0) {
             return true;
         }
         List<HSEntry> hs = HighscoreHelper.getHS(id - 1, this);
+        if (hs != null && hs.size() > 0 ){
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean hasCompleted(int id) {
+        if (isBonus) {
+            id = id + HighscoreHelper.BONUS_LEVELS_OFFSET;
+        }
+        List<HSEntry> hs = HighscoreHelper.getHS(id, this);
         if (hs != null && hs.size() > 0 ){
             return true;
         }
@@ -157,9 +223,5 @@ public class LevelSelectActivity extends Activity {
         return super.onCreateDialog(id);
         
     }
-
-    
-    
-    
 
 }

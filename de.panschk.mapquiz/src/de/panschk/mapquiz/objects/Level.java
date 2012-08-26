@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.panschk.mapquiz.objects.instances.LevelFactoryBonus.LevelEnumBonus;
+
 public class Level {
 	public List<Entry> entriesToDo;
 	public List<Entry> entriesDone;
@@ -35,5 +37,10 @@ public class Level {
 	public int getTotalEntries() {
 	    return entriesDone.size() + entriesToDo.size();
 	}
+
+
+    public Level getLevel(LevelEnumBonus levelEnumBonus) {
+        return null;
+    }
 
 }

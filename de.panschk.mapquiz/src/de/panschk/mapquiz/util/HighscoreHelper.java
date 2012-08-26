@@ -20,6 +20,8 @@ public class HighscoreHelper {
     
     public static int HIGHSCORE_MAX_ENTRIES = 3;
     public static final String LAST_NAME ="LAST_NAME";
+    public static final int BONUS_LEVELS_OFFSET = 500;
+    
     
     public static List<HSEntry> getHS(int levelId, Activity activity) {
         SharedPreferences prefs = activity.getSharedPreferences(Constants.HIGHSCOREKEY, Context.MODE_PRIVATE);

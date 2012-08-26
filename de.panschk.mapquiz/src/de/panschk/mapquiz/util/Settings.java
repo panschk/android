@@ -4,10 +4,12 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import de.panschk.mapquiz.Constants;
 import de.panschk.mapquiz.R;
 
 /**
@@ -19,6 +21,7 @@ import de.panschk.mapquiz.R;
  * 
  */
 public class Settings {
+    
 
     public static final String LANGUAGE_DEFAULT = "default";
     public static final String DIFFICULTY_DEFAULT = "medium";
@@ -87,6 +90,37 @@ public class Settings {
         }
         return Difficulty.MEDIUM;
         
+    }
+    
+    public boolean showDialogAfterCorrectGuess() {
+        String showDlgStr = getShowDialogSetting();
+        if (getString(R.string._show_msg_always).equals(showDlgStr)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean showDialogAfterWrongGuess() {
+        String showDlgStr = getShowDialogSetting();
+        if (getString(R.string._show_msg_never).equals(showDlgStr)) {
+            return false;
+        }
+        return true;
+    }
+
+    private String getShowDialogSetting() {
+        String showDlgStr = settings.getString(getString(R.string._show_msg_key), getString(R.string._show_msg_error));
+        return showDlgStr;
+    }
+    
+    public boolean bonusLevelsAvailable() {
+        return settings.getBoolean(Constants.BONUS_LEVELS, false);
+    }
+    
+    public void setBonusLevelsAvailable(boolean b) {
+        Editor edit = settings.edit();
+        edit.putBoolean(Constants.BONUS_LEVELS, b);
+        edit.commit();
     }
 
     private Resources getResource() {
@@ -159,7 +193,11 @@ public class Settings {
     }
     
     public static enum Difficulty {
-        EASY, MEDIUM, HARD, EXTREME
+        EASY, MEDIUM, HARD, EXTREME, TRAINING
     }
+
+
+    
+    
 
 }

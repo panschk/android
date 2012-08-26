@@ -118,12 +118,12 @@ public class MapView extends ImageView {
 
 	}
 
-	private int realY(Entry entry) {
+	public int realY(Entry entry) {
 		int realY = mapBitmap.getHeight() * entry.y / level.height;
 		return realY;
 	}
 
-	private int realX(Entry entry) {
+	public int realX(Entry entry) {
 		int realX = mapBitmap.getWidth() * entry.x / level.width;
 		return realX;
 	}
@@ -137,6 +137,7 @@ public class MapView extends ImageView {
 		case MotionEvent.ACTION_DOWN:
 			lastX = event.getX();
 			lastY = event.getY();
+			System.out.println(lastX+","+lastY);
 			break;
 		case MotionEvent.ACTION_UP:
 			float currentX = event.getX();
@@ -157,24 +158,44 @@ public class MapView extends ImageView {
 
 
 	public void onClick() {
+        //otherwise will get exceptions
+        if (level.entriesToDo.size() < 1) {
+            return;
+        }
+        // wait at least 100 ms between two guesses -- otherwise some glitches can occur
+        if (System.currentTimeMillis() - activity.state.timeOfLastGuess < 100) {
+            return;
+        }
 
-		float x = lastX;
-		float y = lastY;
-		//otherwise will get exceptions
-		if (level.entriesToDo.size() < 1) {
-		    return;
-		}
+        float x = lastX;
+        float y = lastY;
+	    if (activity.state.isTraingMode) {
+	        for (int i = 0; i < level.entriesToDo.size(); i++) {
+                Entry e = level.entriesToDo.get(i);
+                int realX2 = realX(e);
+                int realY2 = realY(e);
+                if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < offset * 2) {
+                    activity.showTraingingModeText(e);
+                    invalidate();
+                    return;
+                }
+            }
+	        return;
+	    }
+
 		Entry entry = level.entriesToDo.get(0);
 		int realX = realX(entry);
 		int realY = realY(entry);
 
 		if ((Math.abs(realX - x) < 25) && Math.abs(realY - y) < offset * 2) {
+		    activity.state.timeOfLastGuess = System.currentTimeMillis();
 			if (activity.nextEntry()) {
 			    activity.sound.playSound(Sound.RIGHT);
 			    activity.drawQuestion();
+			    
 			} else {
 			    activity.sound.playSound(Sound.WIN);
-				activity.nextLevel();
+				activity.completeLevel();
 			}
 		} else {
 			// iterate through the other ones, if there was an error
@@ -183,7 +204,10 @@ public class MapView extends ImageView {
 				int realX2 = realX(otherEntry);
 				int realY2 = realY(otherEntry);
 				if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < offset * 2) {
+		            activity.state.timeOfLastGuess = System.currentTimeMillis();
+		            activity.state.lastWrongGuess = otherEntry;
 				    activity.removeLife();
+				    break;
 				}
 			}
 		}

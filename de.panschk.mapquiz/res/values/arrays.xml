@@ -10,29 +10,25 @@
         
     </string-array>
 
-    
-
     <string-array name="difficulty_levels">
         <item>@string/difficulty_easy</item>
         <item>@string/difficulty_medium</item>
         <item>@string/difficulty_hard</item>
         <item>@string/difficulty_extreme</item>
     </string-array>
-
-    <string-array name="image_size_values">
-        <item>@string/_image_size_device</item>
-        <item>@string/_image_size_small</item>
-        <item>@string/_image_size_normal</item>
-        <item>@string/_image_size_large</item>
-    </string-array>
     
-    <string-array name="image_size">
-        <item>@string/map_size_device</item>
-        <item>@string/map_size_small</item>
-        <item>@string/map_size_normal</item>
-        <item>@string/map_size_large</item>
-
+    <string-array name="show_msg_values">
+        <item>@string/_show_msg_never</item>
+        <item>@string/_show_msg_error</item>
+        <item>@string/_show_msg_always</item>
     </string-array>
+
+    <string-array name="show_msg">
+        <item>@string/never</item>
+        <item>@string/on_mistake</item>
+        <item>@string/always</item>
+    </string-array>
+
     
     <string-array name="languages_values">
         <item>@string/_language_default</item>

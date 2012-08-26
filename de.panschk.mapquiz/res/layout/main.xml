@@ -17,19 +17,36 @@
         android:id="@+id/startGame"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:text="@string/start" />
+        android:layout_weight="0.15"
+        android:text="@string/start" 
+        android:drawableLeft="@drawable/play" 
+        />
+
+    <Button
+        android:id="@+id/bonusLevels"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:drawableLeft="@drawable/star_grey" 
+        android:contentDescription="@string/bonus_levels"
+        android:text="@string/bonus_levels"
+        />
+
     <Button
         android:id="@+id/settings"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:text="@string/settings" />
+        android:layout_weight="0.15"
+        android:text="@string/settings" 
+        android:drawableLeft="@drawable/settings" 
+        />
         <Button
         android:id="@+id/about"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.2"
-        android:text="@string/about" />
+        android:layout_weight="0.15"
+        android:text="@string/about"
+        android:drawableLeft="@drawable/about" 
+         />
 
 </LinearLayout>

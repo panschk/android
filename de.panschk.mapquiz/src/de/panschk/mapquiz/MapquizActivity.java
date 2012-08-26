@@ -39,6 +39,17 @@ public class MapquizActivity extends Activity {
 
             }
         });
+        getBonusLevelsButton().setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                Intent i = new Intent(MapquizActivity.this,
+                        LevelSelectActivity.class);
+                i.putExtra(Constants.BONUS_LEVELS, true);
+                startActivity(i);
+
+            }
+        });
+        
         getSettingsButton().setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
@@ -59,6 +70,11 @@ public class MapquizActivity extends Activity {
 
     public Button getStartButton() {
         return (Button) findViewById(R.id.startGame);
+    }
+
+    
+    public Button getBonusLevelsButton() {
+        return (Button) findViewById(R.id.bonusLevels);
     }
 
     public Button getSettingsButton() {
