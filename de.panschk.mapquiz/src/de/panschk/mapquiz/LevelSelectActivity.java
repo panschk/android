@@ -26,19 +26,18 @@ import de.panschk.mapquiz.util.HighscoreHelper.HSEntry;
 import de.panschk.mapquiz.util.Settings;
 
 public class LevelSelectActivity extends Activity {
-    
-    
+
     private Drawable star;
     private Drawable starGrey;
     private Drawable unknown;
-    
+
     boolean isBonus = false;
     boolean bonusLevelsAvailable = false;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        MapquizApplication app = (MapquizApplication) this
-                .getApplicationContext();
+    protected void onResume() {
+        super.onResume();
+        MapquizApplication app = (MapquizApplication) this.getApplicationContext();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
@@ -51,35 +50,39 @@ public class LevelSelectActivity extends Activity {
         }
         settings.adjustLanguageConfig();
         RelativeLayout r = new RelativeLayout(this);
-        ScrollView s =new ScrollView(this);
-        
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.FILL_PARENT,
+        ScrollView s = new ScrollView(this);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
                 RelativeLayout.LayoutParams.FILL_PARENT);
         star = getResources().getDrawable(R.drawable.star);
         star.setBounds(0, 0, 48, 48);
         starGrey = getResources().getDrawable(R.drawable.star_grey);
         starGrey.setBounds(0, 0, 48, 48);
         unknown = getResources().getDrawable(R.drawable.thumb_unknown);
-        
-        
+
         r.setLayoutParams(params);
         addButtons(r);
         s.addView(r);
         setContentView(s);
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     private boolean checkBonusLevelsAvailable(Settings settings) {
         LevelEnum[] values = LevelEnum.values();
         for (LevelEnum levelEnum : values) {
             List<HSEntry> hs = HighscoreHelper.getHS(levelEnum.ordinal(), this);
-            if (! ( hs != null && hs.size() > 0) ) {
+            if (!(hs != null && hs.size() > 0)) {
                 return false;
             }
         }
         settings.setBonusLevelsAvailable(true);
         return true;
-        
+
     }
 
     @Override
@@ -106,19 +109,18 @@ public class LevelSelectActivity extends Activity {
             Level level;
             if (isBonus) {
                 level = levels.getLevel(LevelEnumBonus.values()[id]);
-            } else  {
+            } else {
                 level = levels.getLevel(LevelEnum.values()[id]);
             }
             if (level != null) {
                 final boolean isAvailable = isAvailable(id);
-                
+
                 LinearLayout container = new LinearLayout(this);
                 container.setId(id + 1);
-                RelativeLayout.LayoutParams paramsContainer = new RelativeLayout.LayoutParams(
-                        LayoutParams.FILL_PARENT, 100);
-                paramsContainer.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-                        RelativeLayout.TRUE);
-                if (lastOne == null ) {
+                RelativeLayout.LayoutParams paramsContainer = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
+                        100);
+                paramsContainer.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+                if (lastOne == null) {
                     paramsContainer.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
                 } else {
                     paramsContainer.addRule(RelativeLayout.BELOW, lastOne.getId());
@@ -126,18 +128,15 @@ public class LevelSelectActivity extends Activity {
                 container.setLayoutParams(paramsContainer);
                 r.addView(container);
                 lastOne = container;
-                
-                
+
                 Button b = new Button(this);
                 b.setGravity(Gravity.LEFT);
-                LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(
-                        LayoutParams.FILL_PARENT, 100);
+                LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, 100);
                 paramsButton.weight = 0.8f;
                 b.setLayoutParams(paramsButton);
                 Drawable drawable;
                 if (isAvailable) {
-                    drawable = getResources().getDrawable(
-                            level.pictereIdThumbnail);
+                    drawable = getResources().getDrawable(level.pictereIdThumbnail);
 
                     b.setText(level.name);
                 } else {
@@ -152,8 +151,7 @@ public class LevelSelectActivity extends Activity {
 
                     public void onClick(View v) {
                         if (isAvailable) {
-                            Intent i = new Intent(LevelSelectActivity.this,
-                                    MapActivity.class);
+                            Intent i = new Intent(LevelSelectActivity.this, MapActivity.class);
                             i.putExtra(Constants.LEVEL_KEY, id);
                             i.putExtra(Constants.BONUS_LEVELS, isBonus);
                             startActivity(i);
@@ -162,20 +160,21 @@ public class LevelSelectActivity extends Activity {
                     }
                 });
                 container.addView(b);
-                
+
                 Button highscore = new Button(this);
-                highscore.setGravity(Gravity.RIGHT );
+                highscore.setGravity(Gravity.RIGHT);
                 LinearLayout.LayoutParams paramsHS = new LinearLayout.LayoutParams(100, 100);
                 paramsHS.weight = 0.2f;
                 highscore.setLayoutParams(paramsHS);
 
                 highscore.setCompoundDrawables(hasCompleted(id) ? star : starGrey, null, null, null);
-                final int highScoreOffset = Constants.ID_OFFSET_HIGHSCORE + (isBonus ? HighscoreHelper.BONUS_LEVELS_OFFSET : 0);
+                final int highScoreOffset = Constants.ID_OFFSET_HIGHSCORE
+                        + (isBonus ? HighscoreHelper.BONUS_LEVELS_OFFSET : 0);
                 highscore.setId(Constants.ID_OFFSET_HIGHSCORE + id);
                 highscore.setOnClickListener(new OnClickListener() {
 
                     public void onClick(View v) {
-                        
+
                         showDialog(highScoreOffset + id);
                     }
                 });
@@ -183,8 +182,23 @@ public class LevelSelectActivity extends Activity {
 
             }
         }
+
+        Button back = new Button(this);
+        back.setText(getString(R.string.back));
+        RelativeLayout.LayoutParams paramsBB = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, 100);
+        paramsBB.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        paramsBB.addRule(RelativeLayout.BELOW, lastOne.getId());
+        back.setLayoutParams(paramsBB);
+        back.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                LevelSelectActivity.this.finish();
+            }
+        });
+        r.addView(back);
+
     }
-    
+
     private boolean isAvailable(int id) {
 
         if (Constants.DEBUG_ALL_LEVELS) {
@@ -197,31 +211,31 @@ public class LevelSelectActivity extends Activity {
             return true;
         }
         List<HSEntry> hs = HighscoreHelper.getHS(id - 1, this);
-        if (hs != null && hs.size() > 0 ){
+        if (hs != null && hs.size() > 0) {
             return true;
         }
         return false;
     }
-    
+
     private boolean hasCompleted(int id) {
         if (isBonus) {
             id = id + HighscoreHelper.BONUS_LEVELS_OFFSET;
         }
         List<HSEntry> hs = HighscoreHelper.getHS(id, this);
-        if (hs != null && hs.size() > 0 ){
+        if (hs != null && hs.size() > 0) {
             return true;
         }
         return false;
     }
 
     protected Dialog onCreateDialog(int id) {
-        
+
         if (id >= Constants.ID_OFFSET_HIGHSCORE) {
             return HighscoreHelper.createHighscoreDialog(id, this, false);
         }
-        
+
         return super.onCreateDialog(id);
-        
+
     }
 
 }

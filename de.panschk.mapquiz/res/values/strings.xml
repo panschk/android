@@ -128,13 +128,11 @@
     <string name="surabaya">Surabaya</string>
     <string name="cities_in_asia">Cities in Asia</string>
     <string name="shanghai">Shanghai</string>
-    <string name="bombay">Bombay</string>
     <string name="karachi">Karachi</string>
     <string name="delhi">Delhi</string>
     <string name="dhaka">Dhaka</string>
     <string name="soeul">Soeul</string>
     <string name="tokyo">Tokyo</string>
-    <string name="peking">Peking</string>
     <string name="lahore">Lahore</string>
     <string name="islamabad">Islamabad</string>
     <string name="bangkok">Bangkok</string>
@@ -169,7 +167,6 @@
     <string name="kuwait">Kuwait</string>
     <string name="tehran">Tehran</string>
     <string name="cities_around_the_arabian_sea">Cities around the Arabian Sea</string>
-    <string name="bagdhad">Bagdhad</string>
     <string name="riyadh">Riyadh</string>
     <string name="abu_dhabi">Abu Dhabi</string>
     <string name="dubai">Dubai</string>
@@ -721,6 +718,9 @@
     <string name="wrong_">"Wrong! "</string>
     <string name="you_clicked_on_">"You clicked on "</string>
     
+    <string name="back">Back</string>
+    <string name="win">Win!</string>
+    <string name="fail">Fail!</string>
     
 
 </resources>

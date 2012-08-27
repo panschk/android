@@ -31,14 +31,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/timeText" >
-
+
         <TextView
             android:id="@+id/questionText"
-            android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:background="#151825"
+            android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:text="@string/clickinstruction" />
+            android:background="#151825"
+            android:text="@string/clickinstruction"
+            android:textColor="#ffffff"
+            android:textSize="14pt" />
 
         <ImageButton
             android:id="@+id/optionsButton"

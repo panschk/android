@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import de.panschk.mapquiz.R;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.Level;
@@ -233,13 +232,13 @@ public class LevelFactory {
         String name = getString(R.string.cities_in_asia);
         List<Entry> entries = new ArrayList<Entry>();
         entries.add(new Entry( 770,  344, getString(R.string.shanghai)));
-        entries.add(new Entry( 216,  495, getString(R.string.bombay)));
+        entries.add(new Entry( 216,  495, getString(R.string.mumbai)));
         entries.add(new Entry( 147,  419, getString(R.string.karachi)));
         entries.add(new Entry( 258,  378, getString(R.string.delhi)));
         entries.add(new Entry( 410,  449, getString(R.string.dhaka)));
         entries.add(new Entry( 827,  256, getString(R.string.soeul)));
         entries.add(new Entry( 977,  282, getString(R.string.tokyo)));
-        entries.add(new Entry( 720,  227, getString(R.string.peking)));
+        entries.add(new Entry( 720,  227, getString(R.string.beijing)));
         entries.add(new Entry( 235,  339, getString(R.string.lahore)));
         entries.add(new Entry( 218,  286, getString(R.string.islamabad)));
         entries.add(new Entry( 532,  562, getString(R.string.bangkok)));
@@ -290,7 +289,7 @@ public class LevelFactory {
         String name = getString(R.string.cities_around_the_arabian_sea);
         List<Entry> entries = new ArrayList<Entry>();
         entries.add(new Entry( 416,  3, getString(R.string.tehran)));
-        entries.add(new Entry( 289,  40, getString(R.string.bagdhad)));
+        entries.add(new Entry( 289,  40, getString(R.string.baghdad)));
         entries.add(new Entry( 353,  121, getString(R.string.kuwait)));
         entries.add(new Entry( 319,  194, getString(R.string.riyadh)));
         entries.add(new Entry( 445,  204, getString(R.string.abu_dhabi)));
@@ -770,9 +769,6 @@ public class LevelFactory {
     }
 
 
-    private Resources getResources() {
-        return activity.getResources();
-    }
 
     public Level getLevel(LevelEnumBonus levelEnumBonus) {
         return null;

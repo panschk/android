@@ -138,7 +138,7 @@ public class MapActivity extends Activity {
         
         switch (id) {
         case DIALOG_RIGHT:
-            ((AlertDialog) dialog).setMessage(DisplayStringHelper.getRndCorrectSolutionString(this));
+            ((AlertDialog) dialog).setTitle(DisplayStringHelper.getRndCorrectSolutionString(this));
             break;
         case DIALOG_WRONG:
             ((AlertDialog) dialog).setMessage(getString(R.string.wrong_)+ getString(R.string.you_clicked_on_)+state.lastWrongGuess.name+".");
@@ -175,14 +175,15 @@ public class MapActivity extends Activity {
 
     private Dialog createGuessRightDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(DisplayStringHelper.getRndCorrectSolutionString(this))
+        builder.setMessage("")
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
-
+        builder.setIcon(R.drawable.happyearth2);
+        builder.setTitle(DisplayStringHelper.getRndCorrectSolutionString(this));
         AlertDialog alert = builder.create();
         return alert;
     }
@@ -196,7 +197,8 @@ public class MapActivity extends Activity {
                             public void onClick(DialogInterface dialog, int id) {
                             }
                         });
-
+        builder.setIcon(R.drawable.sadearth2);
+        builder.setTitle(getString(R.string.wrong_));
         AlertDialog alert = builder.create();
         return alert;
     }
@@ -218,7 +220,8 @@ public class MapActivity extends Activity {
                                 MapActivity.this.finish();
                             }
                         });
-
+        builder.setIcon(R.drawable.happyearth);
+        builder.setTitle(getString(R.string.win));
         AlertDialog alert = builder.create();
         return alert;
     }
@@ -285,6 +288,8 @@ public class MapActivity extends Activity {
                                 MapActivity.this.finish();
                             }
                         });
+        builder.setIcon(R.drawable.sadearth);
+        builder.setTitle(R.string.fail);
         AlertDialog alert = builder.create();
         return alert;
     }
@@ -473,7 +478,9 @@ public class MapActivity extends Activity {
     }
 
     public void drawQuestion() {
-
+        if (state.level.entriesToDo == null || state.level.entriesToDo.size()< 1) {
+            return;
+        }
         Entry newEntry = state.level.entriesToDo.get(0);
         TextView questionText = (TextView) findViewById(R.id.questionText);
         if (questionText != null) {

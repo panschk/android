@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import de.panschk.mapquiz.R;
 import de.panschk.mapquiz.objects.Entry;
 import de.panschk.mapquiz.objects.Level;
@@ -485,10 +484,6 @@ public class LevelFactoryBonus extends LevelFactory {
         return level;
     }
     
-
-    private Resources getResources() {
-        return activity.getResources();
-    }
 
 
 }
