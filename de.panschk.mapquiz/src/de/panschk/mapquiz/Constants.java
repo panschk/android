@@ -19,5 +19,7 @@ public class Constants {
     
     public static final boolean DEBUG_ALL_LEVELS = false;
     
+    public static final String SECRET_CODE = "61440";
+    
 
 }

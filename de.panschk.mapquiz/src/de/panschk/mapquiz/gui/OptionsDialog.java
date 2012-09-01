@@ -13,7 +13,7 @@ public class OptionsDialog extends Dialog {
         super(context);
         boolean trainingsMode = context.state.isTraingMode;
         this.setContentView(R.layout.optionsdialog);
-        this.setTitle("Options");
+        this.setTitle(R.string.options);
         Button restartButton = (Button) findViewById(R.id.restart);
         restartButton.setOnClickListener(new View.OnClickListener() {
 

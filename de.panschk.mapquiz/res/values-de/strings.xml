@@ -35,7 +35,7 @@
     <string name="switzerland">Schweiz</string>
     <string name="luxembourg">Luxemburg</string>
     <string name="belgium">Belgien</string>
-    <string name="the_netherlands">Die Niederlande</string>
+    <string name="the_netherlands">die Niederlande</string>
     <string name="denmark">Dänemark</string>
     <string name="norway">Norwegen</string>
     <string name="sweden">Schweden</string>
@@ -51,7 +51,7 @@
     <string name="montenegro">Montenegro</string>
     <string name="albania">Albanien</string>
     <string name="greece">Griechenland</string>
-    <string name="macedonia">Macedonien</string>
+    <string name="macedonia">Mazedonien</string>
     <string name="kosovo">Kosovo</string>
     <string name="bulgaria">Bulgarien</string>
     <string name="romania">Rumänien</string>
@@ -202,7 +202,7 @@
     <string name="ndjamena">N\'Djamena</string>
     <string name="bamako">Bamako</string>
     <string name="tripoli">Tripolis</string>
-    <string name="cities_in_southern_africa">Städte im südlchen Afrika</string>
+    <string name="cities_in_southern_africa">Städte im südlichen Afrika</string>
     <string name="kinshasa">Kinshasa</string>
     <string name="luanda">Luanda</string>
     <string name="johannesburg">Johannesburg</string>
@@ -279,7 +279,7 @@
     <string name="mexico">Mexiko</string>
     <string name="cuba">Kuba</string>
     <string name="dominican_republic">Dominikanische Republik</string>
-    <string name="purto_rico">Purto Rico</string>
+    <string name="purto_rico">Puerto Rico</string>
     <string name="haiti">Haiti</string>
     <string name="cayman_islands">Cayman Inseln</string>
     <string name="the_bahamas">Bahamas</string>
@@ -354,7 +354,7 @@
     <string name="qatar">Katar</string>
     <string name="bahrain">Bahrain</string>
     <string name="northwest_africa">Nord-/Westafrika</string>
-    <string name="tunisia">Tunisien</string>
+    <string name="tunisia">Tunesien</string>
     <string name="algeria">Algerien</string>
     <string name="marocco">Marokko</string>
     <string name="libya">Libyen</string>
@@ -416,7 +416,7 @@
     <string name="comores">Komoren</string>
     <string name="mauritius">Mauritius</string>
     <string name="level_failed_retry_">Leider nicht geschafft. Nochmal versuchen?</string>
-    <string name="good_job_you_solved_the_level_">"Gut gemacht! Du hast das Level gelöst."</string>
+    <string name="good_job_you_solved_the_level_">"Gut gemacht! Du hast das Level gelöst:"</string>
     <string name="settings">Einstellungen</string>
     <string name="about">Infos</string>
     <string name="enable_vibration_of_the_device">Vibration bei Fehlern aktivieren</string>
@@ -670,7 +670,7 @@
     <string name="hamburg_hamburger">Hamburg (Hamburger)</string>
     <string name="black_forest_cake">Schwarzwald (Kirschtorte)</string>
     <string name="bologna_bolognese_pasta_sauce">Bologna (Spaghetti \'Bolognese\' )</string>
-    <string name="berlin_berliner_pastry">Berlin (\'Berliner\' {Kreppel})))</string>
+    <string name="berlin_berliner_pastry">Berlin (\'Berliner\')))</string>
     <string name="vienna_wiener_sausage">Wien (Wiener Würstchen)</string>
     <string name="dijon_mustard">Dijon (Senf)</string>
     <string name="frankfurt_sausage">Frankfurt (Würstchen)</string>
@@ -713,5 +713,9 @@
     
     <string name="win">Sieg!</string>
     <string name="fail">Verloren</string>
+    
+    <string name="the_secret_code_is_">"Der geheime Code: "</string>
+    <string name="you_have_to_complete_the_regular_levels_first_or_just_enter_the_secret_code_">Du musst erst alle regulären Level lösen. Oder gib den geheimen Code ein:</string>
+    <string name="enter_code">Gib Code ein</string>
 
 </resources>

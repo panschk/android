@@ -279,7 +279,7 @@
     <string name="mexico">Mexico</string>
     <string name="cuba">Cuba</string>
     <string name="dominican_republic">Dominican Republic</string>
-    <string name="purto_rico">Purto Rico</string>
+    <string name="purto_rico">Puerto Rico</string>
     <string name="haiti">Haiti</string>
     <string name="cayman_islands">Cayman Islands</string>
     <string name="the_bahamas">The Bahamas</string>
@@ -721,6 +721,9 @@
     <string name="back">Back</string>
     <string name="win">Win!</string>
     <string name="fail">Fail!</string>
+    <string name="the_secret_code_is_">"The secret code is: "</string>
+    <string name="you_have_to_complete_the_regular_levels_first_or_just_enter_the_secret_code_">You have to complete the regular levels first. Or just enter the secret code:</string>
+    <string name="enter_code">Enter Code</string>
     
 
 </resources>

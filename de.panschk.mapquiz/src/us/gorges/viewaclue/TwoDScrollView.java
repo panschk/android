@@ -167,7 +167,9 @@ public class TwoDScrollView extends FrameLayout {
         setWillNotDraw(false);
         final ViewConfiguration configuration = ViewConfiguration.get(getContext());
         mTouchSlop = configuration.getScaledTouchSlop();
-        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        // panschk:
+        // mMinimumVolicity is MUCH too low on Sony Tablet S. I set the value to 30 * the system value
+        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity() * 15;
         //mMaximumVelocity = mMinimumVelocity * 5;//configuration.getScaledMaximumFlingVelocity();
     }
 
@@ -376,7 +378,7 @@ public class TwoDScrollView extends FrameLayout {
                 //velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                 int initialXVelocity = (int) velocityTracker.getXVelocity();
                 int initialYVelocity = (int) velocityTracker.getYVelocity();
-
+                
                 if ((Math.abs(initialXVelocity) + Math.abs(initialYVelocity) > mMinimumVelocity) && getChildCount() > 0) {
                     fling(-initialXVelocity, -initialYVelocity);
                 } else {

@@ -146,9 +146,6 @@ public class HighscoreHelper {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (closeActivity) {
-//                                    Intent i = new Intent(activity,
-//                                            LevelSelectActivity.class);
-//                                    activity.startActivity(i);
                                     activity.finish();
                                 }
                             }

@@ -3,36 +3,46 @@ package de.panschk.mapquiz;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import de.panschk.mapquiz.objects.Level;
 import de.panschk.mapquiz.objects.instances.LevelFactory;
 import de.panschk.mapquiz.objects.instances.LevelFactory.LevelEnum;
 import de.panschk.mapquiz.objects.instances.LevelFactoryBonus;
 import de.panschk.mapquiz.objects.instances.LevelFactoryBonus.LevelEnumBonus;
+import de.panschk.mapquiz.util.DisplayStringHelper;
 import de.panschk.mapquiz.util.HighscoreHelper;
 import de.panschk.mapquiz.util.HighscoreHelper.HSEntry;
 import de.panschk.mapquiz.util.Settings;
 
 public class LevelSelectActivity extends Activity {
 
+    protected static final int ENTER_SECRET_CODE = 0;
+    protected static final int CODE_RIGHT = 1;
+    protected static final int CODE_WRONG = 2;
     private Drawable star;
     private Drawable starGrey;
     private Drawable unknown;
 
     boolean isBonus = false;
     boolean bonusLevelsAvailable = false;
+    private Settings settings;
 
     @Override
     protected void onResume() {
@@ -43,10 +53,10 @@ public class LevelSelectActivity extends Activity {
         if (extras != null) {
             isBonus = extras.getBoolean(Constants.BONUS_LEVELS);
         }
-        Settings settings = app.getSettings();
+        settings = app.getSettings();
         bonusLevelsAvailable = settings.bonusLevelsAvailable();
         if (!bonusLevelsAvailable) {
-            checkBonusLevelsAvailable(settings);
+            bonusLevelsAvailable = checkBonusLevelsAvailable(settings);
         }
         settings.adjustLanguageConfig();
         RelativeLayout r = new RelativeLayout(this);
@@ -102,7 +112,44 @@ public class LevelSelectActivity extends Activity {
             values = LevelEnum.values();
         }
 
-        LinearLayout lastOne = null;
+        View lastOne = null;
+        if (isBonus) {
+            int idForTxt = 99826;
+            LinearLayout container = new LinearLayout(this);
+            container.setId(idForTxt);
+            RelativeLayout.LayoutParams paramsContainer = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, 100);
+            paramsContainer.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+            paramsContainer.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+            container.setLayoutParams(paramsContainer);
+            r.addView(container);
+            lastOne = container;
+            TextView info = new TextView(this);
+            info.setGravity(Gravity.LEFT);
+            LinearLayout.LayoutParams paramsTxt = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 100);
+            paramsTxt.weight = 0.6f;
+            info.setLayoutParams(paramsTxt);
+            container.addView(info);
+            if (bonusLevelsAvailable) {
+                info.setText(getString(R.string.the_secret_code_is_) + Constants.SECRET_CODE);
+            } else {
+                info.setText(getString(R.string.you_have_to_complete_the_regular_levels_first_or_just_enter_the_secret_code_));
+                Button tryCodeBttn = new Button(this);
+                LinearLayout.LayoutParams paramsSB = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 100);
+                paramsSB.weight = 0.4f;
+                tryCodeBttn.setLayoutParams(paramsSB);
+                tryCodeBttn.setText(R.string.enter_code);
+                tryCodeBttn.setOnClickListener(new OnClickListener() {
+
+                    public void onClick(View v) {
+                        showDialog(ENTER_SECRET_CODE);
+
+                    }
+                });
+                container.addView(tryCodeBttn);
+            }
+
+        }
+
         for (Enum enumInst : values) {
             final int id = enumInst.ordinal();
 
@@ -232,6 +279,55 @@ public class LevelSelectActivity extends Activity {
 
         if (id >= Constants.ID_OFFSET_HIGHSCORE) {
             return HighscoreHelper.createHighscoreDialog(id, this, false);
+        }
+        if (id == ENTER_SECRET_CODE) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.enter_code).setCancelable(true);
+            final EditText editView = new EditText(this);
+            builder.setView(editView);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Editable text = editView.getText();
+                    String textContent = text.toString();
+                    if (Constants.SECRET_CODE.equalsIgnoreCase(textContent.trim())) {
+                        settings.setBonusLevelsAvailable(true);
+                        showDialog(CODE_RIGHT);
+                    } else {
+                        showDialog(CODE_WRONG);
+                    }
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            return alert;
+        }
+        if (id == CODE_RIGHT) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(null)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent i = new Intent(LevelSelectActivity.this,
+                                            LevelSelectActivity.class);
+                                    i.putExtra(Constants.BONUS_LEVELS, true);
+                                    startActivity(i);
+                                    LevelSelectActivity.this.finish();
+                                }
+                            });
+            builder.setIcon(R.drawable.happyearth);
+            builder.setTitle(DisplayStringHelper.getRndCorrectSolutionString(this));
+            AlertDialog alert = builder.create();
+            return alert;
+        }
+        if (id == CODE_WRONG) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.wrong_)
+                    .setCancelable(true);
+            builder.setPositiveButton(android.R.string.ok, null);
+            AlertDialog alert = builder.create();
+            return alert;
         }
 
         return super.onCreateDialog(id);

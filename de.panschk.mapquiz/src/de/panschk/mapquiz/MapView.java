@@ -137,12 +137,11 @@ public class MapView extends ImageView {
 		case MotionEvent.ACTION_DOWN:
 			lastX = event.getX();
 			lastY = event.getY();
-			System.out.println(lastX+","+lastY);
 			break;
 		case MotionEvent.ACTION_UP:
 			float currentX = event.getX();
 			float currentY = event.getY();
-			if (Math.abs(lastX - currentX) < 5 && Math.abs(lastY - currentY) < 5) {
+			if (Math.abs(lastX - currentX) < 10 && Math.abs(lastY - currentY) < 10) {
 				onClick();
 			}
 			
@@ -162,7 +161,7 @@ public class MapView extends ImageView {
         if (level.entriesToDo.size() < 1) {
             return;
         }
-        // wait at least 100 ms between two guesses -- otherwise some glitches can occur
+//         wait at least 100 ms between two guesses -- otherwise some glitches can occur
         if (System.currentTimeMillis() - activity.state.timeOfLastGuess < 100) {
             return;
         }
@@ -174,7 +173,7 @@ public class MapView extends ImageView {
                 Entry e = level.entriesToDo.get(i);
                 int realX2 = realX(e);
                 int realY2 = realY(e);
-                if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < offset * 2) {
+                if ((Math.abs(realX2 - x) + Math.abs(realY2 - y) < offset * 3)) {
                     activity.showTraingingModeText(e);
                     invalidate();
                     return;
@@ -186,8 +185,7 @@ public class MapView extends ImageView {
 		Entry entry = level.entriesToDo.get(0);
 		int realX = realX(entry);
 		int realY = realY(entry);
-
-		if ((Math.abs(realX - x) < 25) && Math.abs(realY - y) < offset * 2) {
+		if ((Math.abs(realX - x) + Math.abs(realY - y) < offset * 3)) {
 		    activity.state.timeOfLastGuess = System.currentTimeMillis();
 			if (activity.nextEntry()) {
 			    activity.sound.playSound(Sound.RIGHT);
@@ -203,7 +201,7 @@ public class MapView extends ImageView {
 				Entry otherEntry = level.entriesToDo.get(i);
 				int realX2 = realX(otherEntry);
 				int realY2 = realY(otherEntry);
-				if ((Math.abs(realX2 - x) < 25) && Math.abs(realY2 - y) < offset * 2) {
+				if ((Math.abs(realX2 - x) + Math.abs(realY2 - y) < offset * 3)) {
 		            activity.state.timeOfLastGuess = System.currentTimeMillis();
 		            activity.state.lastWrongGuess = otherEntry;
 				    activity.removeLife();

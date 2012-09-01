@@ -175,7 +175,7 @@ public class MapActivity extends Activity {
 
     private Dialog createGuessRightDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("")
+        builder.setMessage(null)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
@@ -282,12 +282,24 @@ public class MapActivity extends Activity {
                                 MapActivity.this.finish();
                             }
                         })
+                 .setNeutralButton(R.string.training_mode, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int id) {
+                         Intent i = new Intent(MapActivity.this,
+                                 MapActivity.class);
+                         i.putExtra(Constants.LEVEL_KEY, state.level.levelId);
+                         i.putExtra(Constants.BONUS_LEVELS, state.isBonus);
+                         i.putExtra(Constants.MAP_MODE, Constants.MAP_MODE_TRAINING);
+                         startActivity(i);
+                         MapActivity.this.finish();
+                     }
+                 })
                 .setNegativeButton(android.R.string.no,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 MapActivity.this.finish();
                             }
                         });
+                
         builder.setIcon(R.drawable.sadearth);
         builder.setTitle(R.string.fail);
         AlertDialog alert = builder.create();

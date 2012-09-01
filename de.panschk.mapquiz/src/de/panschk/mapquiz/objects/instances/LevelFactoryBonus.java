@@ -88,7 +88,6 @@ public class LevelFactoryBonus extends LevelFactory {
     private Level getLevelChinaCities(int id) {
         String name = getString(R.string.cities_in_china);
         List<Entry> entries = new ArrayList<Entry>();
-        Level level = new Level(id, name, entries, R.drawable.china, R.drawable.thumb_china, 996, 800);
         entries.add(new Entry( 825,  500, getString(R.string.shanghai)));
         entries.add(new Entry( 720,  307, getString(R.string.beijing)));
         entries.add(new Entry( 710,  704, getString(R.string.hong_kong)));
@@ -106,7 +105,7 @@ public class LevelFactoryBonus extends LevelFactory {
         entries.add(new Entry( 850,  213, getString(R.string.changchun)));
         entries.add(new Entry( 808,  521, getString(R.string.hangzhou)));
         entries.add(new Entry( 729,  391, getString(R.string.jinan)));
-        
+        Level level = new Level(id, name, entries, R.drawable.china, R.drawable.thumb_china, 996, 800);
         return level;
     }
 
@@ -126,19 +125,7 @@ public class LevelFactoryBonus extends LevelFactory {
         entries.add(new Entry( 341,  251, getString(R.string.lucknow)));
         entries.add(new Entry( 248,  358, getString(R.string.bhopal)));
         entries.add(new Entry( 450,  288, getString(R.string.patna)));
-        entries.add(new Entry( 120,  475, getString(R.string.mumbai)));
-        entries.add(new Entry( 242,  200, getString(R.string.delhi)));
-        entries.add(new Entry( 248,  655, getString(R.string.bangalore)));
-        entries.add(new Entry( 273,  522, getString(R.string.hyderabad)));
-        entries.add(new Entry( 106,  383, getString(R.string.ahmedabad)));
-        entries.add(new Entry( 326,  651, getString(R.string.chennai)));
-        entries.add(new Entry( 545,  371, getString(R.string.kolkata)));
-        entries.add(new Entry( 123,  414, getString(R.string.surat)));
-        entries.add(new Entry( 137,  492, getString(R.string.pune)));
-        entries.add(new Entry( 209,  251, getString(R.string.jaipur)));
-        entries.add(new Entry( 341,  251, getString(R.string.lucknow)));
-        entries.add(new Entry( 248,  358, getString(R.string.bhopal)));
-        entries.add(new Entry( 450,  288, getString(R.string.patna)));
+  
         Level level = new Level(id, name, entries, R.drawable.india, R.drawable.thumb_india, 773, 802);
         return level;
     }
