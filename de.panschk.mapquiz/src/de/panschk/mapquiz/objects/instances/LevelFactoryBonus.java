@@ -11,7 +11,7 @@ import de.panschk.mapquiz.objects.Level;
 public class LevelFactoryBonus extends LevelFactory {
 
     public static enum LevelEnumBonus {
-        LEVEL_EUROPE_COUNTRIES_ALL, LEVEL_FRANCE_REGIONS, LEVEL_FRANCE_CITIES, LEVEL_GUYANA_GUIANA, LEVEL_GERMANY_BUNDERLAENDER, LEVEL_GERMANY_CITIES, LEVEL_WORLD_MOUNTAIN_RANGES, LEVEL_UK_REGIONS, LEVEL_UK_CITIES, LEVEL_USA_STATES, LEVEL_USA_CITIES, LEVEL_EUROPE_FOOD, LEVEL_INDIA_CITIES, LEVEL_CHINA_CITIES, LEVEL_WORLD_BIG_COMPANIES
+        LEVEL_EUROPE_COUNTRIES_ALL, LEVEL_FRANCE_REGIONS, LEVEL_FRANCE_CITIES, LEVEL_GUYANA_GUIANA, LEVEL_GERMANY_BUNDERLAENDER, LEVEL_GERMANY_CITIES, LEVEL_WORLD_MOUNTAIN_RANGES, LEVEL_UK_REGIONS, LEVEL_UK_CITIES, LEVEL_USA_STATES, LEVEL_USA_CITIES, LEVEL_EUROPE_FOOD, LEVEL_INDIA_CITIES, LEVEL_CHINA_CITIES, LEVEL_WORLD_BIG_COMPANIES, LEVEL_WORLD_LAKES, LEVEL_EUROPE_STREAMS
 
     }
 
@@ -54,6 +54,10 @@ public class LevelFactoryBonus extends LevelFactory {
             return getLevelChinaCities(id);
         case LEVEL_WORLD_BIG_COMPANIES:
             return getLevelWorldCompanies(id);
+        case LEVEL_WORLD_LAKES:
+            return getLevelWorldLakes(id);
+        case LEVEL_EUROPE_STREAMS:
+            return getLevelEuropeStreams(id);
 
         default:
             break;
@@ -63,8 +67,48 @@ public class LevelFactoryBonus extends LevelFactory {
 
     }
 
-    private Level getLevelWorldCompanies(int id) {
-        String name = getString(R.string.mountain_ranges);
+   private Level getLevelEuropeStreams(int id) {
+       String name = getString(R.string.rivers_in_europe);
+       List<Entry> entries = new ArrayList<Entry>();
+       entries.add(new Entry( 381,  257, getString(R.string.dnjepr)));
+       entries.add(new Entry( 292,  333, getString(R.string.donau)));
+       entries.add(new Entry( 74,  349, getString(R.string.ebro)));
+       entries.add(new Entry( 224,  233, getString(R.string.elbe)));
+       entries.add(new Entry( 139,  297, getString(R.string.loire)));
+       entries.add(new Entry( 244,  236, getString(R.string.oder)));
+       entries.add(new Entry( 216,  338, getString(R.string.po)));
+       entries.add(new Entry( 186,  262, getString(R.string.rhein)));
+       entries.add(new Entry( 168,  323, getString(R.string.rhone)));
+       entries.add(new Entry( 134,  273, getString(R.string.seine)));
+       entries.add(new Entry( 40,  375, getString(R.string.tajo)));
+       entries.add(new Entry( 294,  239, getString(R.string.weichsel)));
+       entries.add(new Entry( 445,  152, getString(R.string.wolga)));
+
+       Level level = new Level(id, name, entries, R.drawable.europe_streams, R.drawable.thumb_europe_streams, 472, 472);
+       return level;
+    }
+
+private Level getLevelWorldLakes(int id) {
+    String name = getString(R.string.largest_lakes_worldwide);
+    List<Entry> entries = new ArrayList<Entry>();
+    entries.add(new Entry( 625,  205, getString(R.string.caspian_sea)));
+    entries.add(new Entry( 220,  170, getString(R.string.lake_superior)));
+    entries.add(new Entry( 228,  180, getString(R.string.lake_michigan)));
+    entries.add(new Entry( 240,  174, getString(R.string.lake_huron)));
+    entries.add(new Entry( 267,  174, getString(R.string.lake_ontario)));
+    entries.add(new Entry( 131,  77, getString(R.string.great_bear_lake)));
+    entries.add(new Entry( 571,  326, getString(R.string.lake_victoria)));
+    entries.add(new Entry( 572,  347, getString(R.string.lake_tanganyika)));
+    entries.add(new Entry( 762,  181, getString(R.string.baikal)));
+    entries.add(new Entry( 578,  369, getString(R.string.lake_malawi)));
+    entries.add(new Entry( 152,  126, getString(R.string.great_slave_lake)));
+    entries.add(new Entry( 685,  187, getString(R.string.issyk_kul)));
+    Level level = new Level(id, name, entries, R.drawable.world2, R.drawable.thumb_world2, 1022, 616);
+    return level;
+    }
+
+ private Level getLevelWorldCompanies(int id) {
+        String name = getString(R.string.most_profitable_companies);
         List<Entry> entries = new ArrayList<Entry>();
         entries.add(new Entry( 212,  223, getString(R.string.exxonmobil_oil_and_gas)));
         entries.add(new Entry( 478,  157, getString(R.string.royal_dutch_shell_oil_and_gas)));

@@ -16,11 +16,20 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class CoordinatesHelper {
-    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable/north_africa.png";
+    static String filename = "C:/workspaces/git/android/de.panschk.mapquiz/res/drawable/world2.png";
     static String[] strings = new String[]{
-        "Burkina Faso",
-        "Mali"
-        
+        "Caspian Sea",
+        "Lake Superior",
+        "Lake Michigan",
+        "Lake Huron",
+        "Lake Ontario",
+        "Great Bear Lake",
+        "Lake Victoria",
+        "Lake Tanganyika",
+        "Baikal",
+        "Lake Malawi",
+        "Great Slave Lake",
+        "Issyk-Kul"
 
     };
     

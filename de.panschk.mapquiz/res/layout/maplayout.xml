@@ -40,7 +40,8 @@
             android:background="#151825"
             android:text="@string/clickinstruction"
             android:textColor="#ffffff"
-            android:textSize="14pt" />
+            android:textSize="16sp"
+            />
 
         <ImageButton
             android:id="@+id/optionsButton"

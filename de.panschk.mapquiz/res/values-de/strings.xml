@@ -717,5 +717,33 @@
     <string name="the_secret_code_is_">"Der geheime Code: "</string>
     <string name="you_have_to_complete_the_regular_levels_first_or_just_enter_the_secret_code_">Du musst erst alle regulären Level lösen. Oder gib den geheimen Code ein:</string>
     <string name="enter_code">Gib Code ein</string>
-
+    <string name="most_profitable_companies">Profitabelste Unternehmen (Hauptsitze)</string>
+    
+    <string name="rivers_in_europe">Flüsse in Europa</string>
+    <string name="largest_lakes_worldwide">Größte Binnenseen weltweit</string>
+    <string name="dnjepr">Dnjepr</string>
+    <string name="donau">Donau</string>
+    <string name="ebro">Ebro</string>
+    <string name="elbe">Elbe</string>
+    <string name="loire">Loire</string>
+    <string name="oder">Oder</string>
+    <string name="po">Po</string>
+    <string name="rhein">Rhein</string>
+    <string name="rhone">Rhone</string>
+    <string name="seine">Seine</string>
+    <string name="tajo">Tajo</string>
+    <string name="weichsel">Weichsel</string>
+    <string name="wolga">Wolga</string>
+    <string name="caspian_sea">Kaspisches Meer</string>
+    <string name="lake_superior">Lake Superior</string>
+    <string name="lake_michigan">Lake Michigan</string>
+    <string name="lake_huron">Lake Huron</string>
+    <string name="lake_ontario">Lake Ontario</string>
+    <string name="great_bear_lake">Great Bear Lake</string>
+    <string name="lake_victoria">Lake Victoria</string>
+    <string name="lake_tanganyika">Tanganjikasee</string>
+    <string name="baikal">Baikal</string>
+    <string name="lake_malawi">Lake Malawi</string>
+    <string name="great_slave_lake">Great Slave Lake</string>
+    <string name="issyk_kul">Yssykköl</string>
 </resources>

@@ -707,7 +707,7 @@
     <string name="correct">Correct!</string>
     <string name="excellent_">Excellent!</string>
     <string name="that_s_right_">That\'s right!</string>
-    <string name="well_guessed_">Well guessed...</string>
+    <string name="well_guessed_">Well guessed&#8230;</string>
     <string name="that_s_it">That\'s it</string>
     <string name="right_">Right!</string>
     <string name="correct_answer">Correct answer</string>
@@ -724,6 +724,35 @@
     <string name="the_secret_code_is_">"The secret code is: "</string>
     <string name="you_have_to_complete_the_regular_levels_first_or_just_enter_the_secret_code_">You have to complete the regular levels first. Or just enter the secret code:</string>
     <string name="enter_code">Enter Code</string>
+    <string name="most_profitable_companies">Most profitable companies</string>
+    <string name="rivers_in_europe">Rivers in Europe</string>
+    <string name="largest_lakes_worldwide">Largest lakes worldwide</string>
+    <string name="dnjepr">Dnieper</string>
+    <string name="donau">Danube</string>
+    <string name="ebro">Ebro</string>
+    <string name="elbe">Elbe</string>
+    <string name="loire">Loire</string>
+    <string name="oder">Oder</string>
+    <string name="po">Po</string>
+    <string name="rhein">Rhine</string>
+    <string name="rhone">Rhone</string>
+    <string name="seine">Seine</string>
+    <string name="tajo">Tagus</string>
+    <string name="weichsel">Vistula</string>
+    <string name="wolga">Volga</string>
+    <string name="caspian_sea">Caspian Sea</string>
+    <string name="lake_superior">Lake Superior</string>
+    <string name="lake_michigan">Lake Michigan</string>
+    <string name="lake_huron">Lake Huron</string>
+    <string name="lake_ontario">Lake Ontario</string>
+    <string name="great_bear_lake">Great Bear Lake</string>
+    <string name="lake_victoria">Lake Victoria</string>
+    <string name="lake_tanganyika">Lake Tanganyika</string>
+    <string name="baikal">Baikal</string>
+    <string name="lake_malawi">Lake Malawi</string>
+    <string name="great_slave_lake">Great Slave Lake</string>
+    <string name="issyk_kul">Issyk-Kul</string>
+    
     
 
 </resources>
