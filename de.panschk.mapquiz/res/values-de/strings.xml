@@ -746,4 +746,15 @@
     <string name="lake_malawi">Lake Malawi</string>
     <string name="great_slave_lake">Great Slave Lake</string>
     <string name="issyk_kul">Yssykköl</string>
+    <string name="largest_deserts">Größte Wüsten</string>
+    <string name="german_islands">Deutsche Nordseeinseln</string>
+    <string name="arabian_desert">Arabische Wüste</string>
+    <string name="gobi_desert">Wüste Gobi</string>
+    <string name="kalahari_desert">Kalahari</string>
+    <string name="patagonian_desert">Patagonische Wüste</string>
+    <string name="great_victoria_desert">Great Victoria Wüste</string>
+    <string name="syrian_desert">Syrische Wüste</string>
+    <string name="great_basin_desert">Great Basin Wüste</string>
+    
+    
 </resources>

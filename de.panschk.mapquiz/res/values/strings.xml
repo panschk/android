@@ -752,6 +752,15 @@
     <string name="lake_malawi">Lake Malawi</string>
     <string name="great_slave_lake">Great Slave Lake</string>
     <string name="issyk_kul">Issyk-Kul</string>
+    <string name="largest_deserts">Largest Deserts</string>
+    <string name="german_islands">German Islands in North Sea</string>
+    <string name="arabian_desert">Arabian Desert</string>
+    <string name="gobi_desert">Gobi Desert</string>
+    <string name="kalahari_desert">Kalahari Desert</string>
+    <string name="patagonian_desert">Patagonian Desert</string>
+    <string name="great_victoria_desert">Great Victoria Desert</string>
+    <string name="syrian_desert">Syrian Desert</string>
+    <string name="great_basin_desert">Great Basin Desert</string>
     
     
 

@@ -11,7 +11,7 @@ import de.panschk.mapquiz.objects.Level;
 public class LevelFactoryBonus extends LevelFactory {
 
     public static enum LevelEnumBonus {
-        LEVEL_EUROPE_COUNTRIES_ALL, LEVEL_FRANCE_REGIONS, LEVEL_FRANCE_CITIES, LEVEL_GUYANA_GUIANA, LEVEL_GERMANY_BUNDERLAENDER, LEVEL_GERMANY_CITIES, LEVEL_WORLD_MOUNTAIN_RANGES, LEVEL_UK_REGIONS, LEVEL_UK_CITIES, LEVEL_USA_STATES, LEVEL_USA_CITIES, LEVEL_EUROPE_FOOD, LEVEL_INDIA_CITIES, LEVEL_CHINA_CITIES, LEVEL_WORLD_BIG_COMPANIES, LEVEL_WORLD_LAKES, LEVEL_EUROPE_STREAMS
+        LEVEL_EUROPE_COUNTRIES_ALL, LEVEL_FRANCE_REGIONS, LEVEL_FRANCE_CITIES, LEVEL_GUYANA_GUIANA, LEVEL_GERMANY_BUNDERLAENDER, LEVEL_GERMANY_CITIES, LEVEL_WORLD_MOUNTAIN_RANGES, LEVEL_UK_REGIONS, LEVEL_UK_CITIES, LEVEL_USA_STATES, LEVEL_USA_CITIES, LEVEL_EUROPE_FOOD, LEVEL_INDIA_CITIES, LEVEL_CHINA_CITIES, LEVEL_WORLD_BIG_COMPANIES, LEVEL_WORLD_LAKES, LEVEL_EUROPE_STREAMS, LEVEL_MADAGASCAR, LEVEL_BIGGEST_DESERTS, LEVEL_GERMAN_ISLANDS
 
     }
 
@@ -48,6 +48,8 @@ public class LevelFactoryBonus extends LevelFactory {
             return getLevelUSStates(id);
         case LEVEL_EUROPE_FOOD:
             return getLevelEuropeFood(id);
+        case LEVEL_MADAGASCAR:
+        	return getLevelMadagascar(id);
         case LEVEL_INDIA_CITIES:
             return getLevelIndiaCities(id);
         case LEVEL_CHINA_CITIES:
@@ -58,7 +60,10 @@ public class LevelFactoryBonus extends LevelFactory {
             return getLevelWorldLakes(id);
         case LEVEL_EUROPE_STREAMS:
             return getLevelEuropeStreams(id);
-
+        case LEVEL_BIGGEST_DESERTS:
+        	return getBiggestDeserts(id);
+        case LEVEL_GERMAN_ISLANDS:
+        	return getGermanIslands(id);
         default:
             break;
         }
@@ -289,8 +294,8 @@ private Level getLevelWorldLakes(int id) {
         entries.add(new Entry(565, 596, getString(R.string.greater_london)));
         entries.add(new Entry(473, 300, getString(R.string.north_east_england)));
         entries.add(new Entry(418, 344, getString(R.string.north_west_england)));
-        entries.add(new Entry(388, 650, getString(R.string.south_east_england)));
-        entries.add(new Entry(528, 633, getString(R.string.south_west_england)));
+        entries.add(new Entry(388, 650, getString(R.string.south_west_england)));
+        entries.add(new Entry(528, 633, getString(R.string.south_east_england)));
         entries.add(new Entry(447, 515, getString(R.string.west_midlands)));
         entries.add(new Entry(506, 388, getString(R.string.yorkshire_and_the_humber)));
         entries.add(new Entry(362, 159, getString(R.string.scotland)));
@@ -514,6 +519,58 @@ private Level getLevelWorldLakes(int id) {
         Level level = new Level(id, name, entries, R.drawable.europe, R.drawable.thumb_europe, 800, 640);
         return level;
     }
+    
+    private Level getLevelMadagascar(int id) {
+        String name = getString(R.string.madagascar);
+        List<Entry> entries = new ArrayList<Entry>();
+        entries.add(new Entry( 230,  333, "Antananarivo"));
+        entries.add(new Entry( 221,  388, "Antsirabe"));
+        entries.add(new Entry( 212,  465, "Fianarantsoa"));
+        entries.add(new Entry( 330,  318, "Toamasina"));
+        entries.add(new Entry( 184,  184, "Mahajanga"));
+        entries.add(new Entry( 78,  545, "Toliary (Tuléar)"));
+        entries.add(new Entry( 330,  10, "Antsiranana (Diego-Suarez)"));
+        entries.add(new Entry( 106,  395, "Morondava"));
+        Level level = new Level(id, name, entries, R.drawable.madagascar, R.drawable.thumb_madagascar, 430, 660);
+        return level;
+    }
+    
+    private Level getBiggestDeserts(int id) {
+        String name = getString(R.string.largest_deserts);
+        List<Entry> entries = new ArrayList<Entry>();
+        entries.add(new Entry( 511,  275, "Sahara"));
+        entries.add(new Entry( 605,  256, getString(R.string.arabian_desert)));
+        entries.add(new Entry( 751,  214, getString(R.string.gobi_desert)));
+        entries.add(new Entry( 542,  406, getString(R.string.kalahari_desert)));
+        entries.add(new Entry( 277,  492, getString(R.string.patagonian_desert)));
+        entries.add(new Entry( 840,  414, getString(R.string.great_victoria_desert)));
+        entries.add(new Entry( 587,  233, getString(R.string.syrian_desert)));
+        entries.add(new Entry( 148,  209, getString(R.string.great_basin_desert)));
+        Level level = new Level(id, name, entries, R.drawable.world, R.drawable.thumb_world, 1022, 616);
+        return level;
+    }
+
+    private Level getGermanIslands(int id) {
+        String name = getString(R.string.german_islands);
+        List<Entry> entries = new ArrayList<Entry>();
+        entries.add(new Entry( 86,  405, "Borkum"));
+        entries.add(new Entry( 133,  380, "Juist"));
+        entries.add(new Entry( 167,  376, "Norderney"));
+        entries.add(new Entry( 199,  370, "Baltrum"));
+        entries.add(new Entry( 221,  364, "Langeoog"));
+        entries.add(new Entry( 255,  361, "Spiekeroog"));
+        entries.add(new Entry( 281,  358, "Wangerooge"));
+        entries.add(new Entry( 312,  247, "Helgoland"));
+        entries.add(new Entry( 364,  122, "Amrum"));
+        entries.add(new Entry( 388,  101, "Föhr"));
+        entries.add(new Entry( 365,  50, "Sylt"));
+
+        Level level = new Level(id, name, entries, R.drawable.german_north_see, R.drawable.thumb_german_north_see, 600, 515);
+        return level;
+    }
+    
+    
+
     
 
 
